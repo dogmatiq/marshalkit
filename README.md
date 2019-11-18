@@ -6,4 +6,6 @@
 [![GoDoc](https://godoc.org/github.com/dogmatiq/marshalkit?status.svg)](https://godoc.org/github.com/dogmatiq/marshalkit)
 [![Go Report Card](https://goreportcard.com/badge/github.com/dogmatiq/marshalkit)](https://goreportcard.com/report/github.com/dogmatiq/marshalkit)
 
-Utilities for marshaling and unmarshaling Dogma messages and other types.
+Utilities for marshaling and unmarshaling
+[Dogma](https://github.com/dogmatiq/dogma)
+[messages](https://github.com/dogmatiq/dogma#message) and other types.
