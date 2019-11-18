@@ -1,1 +1,3 @@
-package GITHUB_REPO_NAME
+// Package marshalkit provides utilities for marshaling and unmarshaling
+// Dogma messages and other types.
+package marshalkit
