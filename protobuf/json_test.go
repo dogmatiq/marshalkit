@@ -1,7 +1,8 @@
 package protobuf_test
 
 import (
-	"github.com/dogmatiq/marshalkit/internal/fixtures"
+	. "github.com/dogmatiq/dogma/fixtures"
+	. "github.com/dogmatiq/marshalkit/internal/fixtures"
 	. "github.com/dogmatiq/marshalkit/protobuf"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -23,7 +24,7 @@ var _ = Describe("type JSONCodec", func() {
 	Describe("func Marshal()", func() {
 		It("marshals the value", func() {
 			data, err := codec.Marshal(
-				&fixtures.ProtoMessage{
+				&ProtoMessage{
 					Value: "<value>",
 				},
 			)
@@ -33,10 +34,10 @@ var _ = Describe("type JSONCodec", func() {
 
 		It("returns an error if the type is not a protocol buffers message", func() {
 			_, err := codec.Marshal(
-				fixtures.PlainMessageA{},
+				MessageA{},
 			)
 			Expect(err).To(MatchError(
-				"'fixtures.PlainMessageA' is not a protocol buffers message",
+				"'fixtures.MessageA' is not a protocol buffers message",
 			))
 		})
 	})
@@ -45,21 +46,21 @@ var _ = Describe("type JSONCodec", func() {
 		It("unmarshals the data", func() {
 			data := []byte(`{"value":"\u003cvalue\u003e"}`)
 
-			m := &fixtures.ProtoMessage{}
+			m := &ProtoMessage{}
 			err := codec.Unmarshal(data, m)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(m).To(Equal(
-				&fixtures.ProtoMessage{
+				&ProtoMessage{
 					Value: "<value>",
 				},
 			))
 		})
 
 		It("returns an error if the type is not a protocol buffers message", func() {
-			m := fixtures.PlainMessageA{}
+			m := MessageA{}
 			err := codec.Unmarshal(nil, m)
 			Expect(err).To(MatchError(
-				"'fixtures.PlainMessageA' is not a protocol buffers message",
+				"'fixtures.MessageA' is not a protocol buffers message",
 			))
 		})
 	})

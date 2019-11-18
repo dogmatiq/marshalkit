@@ -3,7 +3,8 @@ package protobuf
 import (
 	"reflect"
 
-	"github.com/dogmatiq/marshalkit/internal/fixtures"
+	. "github.com/dogmatiq/dogma/fixtures"
+	. "github.com/dogmatiq/marshalkit/internal/fixtures"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -13,7 +14,7 @@ var _ = Describe("type TextCodec", func() {
 
 	Describe("func Query()", func() {
 		It("uses the protocol name as the portable type", func() {
-			rt := reflect.TypeOf(&fixtures.ProtoMessage{})
+			rt := reflect.TypeOf(&ProtoMessage{})
 
 			caps := codec.Query(
 				[]reflect.Type{rt},
@@ -23,7 +24,7 @@ var _ = Describe("type TextCodec", func() {
 		})
 
 		It("excludes non-protocol-buffers types", func() {
-			rt := reflect.TypeOf(fixtures.PlainMessageA{})
+			rt := reflect.TypeOf(MessageA{})
 
 			caps := codec.Query(
 				[]reflect.Type{rt},
