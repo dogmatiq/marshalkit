@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"mime"
 	"reflect"
+
+	"github.com/dogmatiq/dogma"
 )
 
 // Marshaler uses a set of codecs to marshal and unmarshal values.
@@ -164,6 +166,22 @@ func (m *Marshaler) Unmarshal(p Packet) (interface{}, error) {
 	}
 
 	return v.Interface(), nil
+}
+
+// MarshalMessage returns a binary representation of a message.
+func (m *Marshaler) MarshalMessage(dm dogma.Message) (Packet, error) {
+	return m.Marshal(dm)
+}
+
+// UnmarshalMessage returns a message from its binary representation.
+func (m *Marshaler) UnmarshalMessage(p Packet) (dogma.Message, error) {
+	// Note: Unmarshal() returns interface{}, which works at the moment because
+	// dogma.Message is also empty.
+	//
+	// If this fails to compile in the future, a branch needs to be added to
+	// return a meaningful error if the unmarshaled value does not implement
+	// dogma.Message.
+	return m.Unmarshal(p)
 }
 
 func (m *Marshaler) unpackMediaType(s string) (Codec, reflect.Type, error) {

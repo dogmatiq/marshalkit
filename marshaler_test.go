@@ -222,4 +222,44 @@ var _ = Describe("type Marshaler", func() {
 			Expect(err).Should(HaveOccurred())
 		})
 	})
+
+	Describe("func MarshalMessage()", func() {
+		It("marshals the message using the marshaler", func() {
+			p, err := marshaler.MarshalMessage(
+				fixtures.PlainMessageA{
+					Value: "<value>",
+				},
+			)
+			Expect(err).ShouldNot(HaveOccurred())
+			Expect(p.MediaType).To(Equal("application/json; type=PlainMessageA"))
+			Expect(p.Data).To(Equal([]byte(`{"Value":"\u003cvalue\u003e"}`)))
+		})
+	})
+
+	Describe("func UnmarshalMessage()", func() {
+		It("unmarshals the message using the marshaler", func() {
+			m, err := marshaler.UnmarshalMessage(
+				Packet{
+					"application/json; type=PlainMessageA",
+					[]byte(`{"Value":"\u003cvalue\u003e"}`),
+				},
+			)
+			Expect(err).ShouldNot(HaveOccurred())
+			Expect(m).To(Equal(
+				fixtures.PlainMessageA{
+					Value: "<value>",
+				},
+			))
+		})
+
+		It("returns an error if the type is not registered", func() {
+			_, err := marshaler.UnmarshalMessage(
+				Packet{
+					"application/json; type=PlainMessageC",
+					[]byte(`{"Value":"\u003cvalue\u003e"}`),
+				},
+			)
+			Expect(err).To(MatchError("the portable type name 'PlainMessageC' is not recognized"))
+		})
+	})
 })
