@@ -3,7 +3,8 @@ package json_test
 import (
 	"reflect"
 
-	"github.com/dogmatiq/marshalkit/internal/fixtures"
+	. "github.com/dogmatiq/dogma/fixtures"
+	. "github.com/dogmatiq/marshalkit/internal/fixtures"
 	. "github.com/dogmatiq/marshalkit/json"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -18,17 +19,17 @@ var _ = Describe("type Codec", func() {
 
 	Describe("func Query()", func() {
 		It("uses the unqualified type-name as the portable type", func() {
-			rt := reflect.TypeOf(fixtures.PlainMessageA{})
+			rt := reflect.TypeOf(MessageA{})
 
 			caps := codec.Query(
 				[]reflect.Type{rt},
 			)
 
-			Expect(caps.Types[rt]).To(Equal("PlainMessageA"))
+			Expect(caps.Types[rt]).To(Equal("MessageA"))
 		})
 
 		It("uses the user-defined type name", func() {
-			type LocalMessage fixtures.PlainMessageA
+			type LocalMessage MessageA
 			rt := reflect.TypeOf(LocalMessage{})
 
 			caps := codec.Query(
@@ -39,14 +40,14 @@ var _ = Describe("type Codec", func() {
 		})
 
 		It("uses the element name for pointer types", func() {
-			var m **fixtures.PlainMessageA
+			var m **MessageA
 			rt := reflect.TypeOf(m)
 
 			caps := codec.Query(
 				[]reflect.Type{rt},
 			)
 
-			Expect(caps.Types[rt]).To(Equal("PlainMessageA"))
+			Expect(caps.Types[rt]).To(Equal("MessageA"))
 		})
 	})
 
@@ -59,7 +60,7 @@ var _ = Describe("type Codec", func() {
 	Describe("func Marshal()", func() {
 		It("marshals the value", func() {
 			data, err := codec.Marshal(
-				&fixtures.ProtoMessage{
+				&ProtoMessage{
 					Value: "<value>",
 				},
 			)
@@ -72,11 +73,11 @@ var _ = Describe("type Codec", func() {
 		It("unmarshals the data", func() {
 			data := []byte(`{"value":"\u003cvalue\u003e"}`)
 
-			m := &fixtures.ProtoMessage{}
+			m := &ProtoMessage{}
 			err := codec.Unmarshal(data, m)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(m).To(Equal(
-				&fixtures.ProtoMessage{
+				&ProtoMessage{
 					Value: "<value>",
 				},
 			))

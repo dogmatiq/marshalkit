@@ -3,9 +3,9 @@ package marshalkit_test
 import (
 	"reflect"
 
-	"github.com/dogmatiq/marshalkit/internal/fixtures"
-
+	. "github.com/dogmatiq/dogma/fixtures"
 	. "github.com/dogmatiq/marshalkit"
+	. "github.com/dogmatiq/marshalkit/internal/fixtures"
 	"github.com/dogmatiq/marshalkit/json"
 	"github.com/dogmatiq/marshalkit/protobuf"
 	. "github.com/onsi/ginkgo"
@@ -19,9 +19,9 @@ var _ = Describe("type Marshaler", func() {
 		var err error
 		marshaler, err = NewMarshaler(
 			[]reflect.Type{
-				reflect.TypeOf(&fixtures.ProtoMessage{}),
-				reflect.TypeOf(fixtures.PlainMessageA{}),
-				reflect.TypeOf(fixtures.PlainMessageB{}),
+				reflect.TypeOf(&ProtoMessage{}),
+				reflect.TypeOf(MessageA{}),
+				reflect.TypeOf(MessageB{}),
 			},
 			[]Codec{
 				&protobuf.NativeCodec{},
@@ -36,7 +36,7 @@ var _ = Describe("type Marshaler", func() {
 		It("returns an error if multiple codecs used the same media-type", func() {
 			_, err := NewMarshaler(
 				[]reflect.Type{
-					reflect.TypeOf(fixtures.PlainMessageA{}),
+					reflect.TypeOf(MessageA{}),
 				},
 				[]Codec{
 					&json.Codec{},
@@ -51,8 +51,8 @@ var _ = Describe("type Marshaler", func() {
 		It("returns an error if there conflicting portable type names", func() {
 			_, err := NewMarshaler(
 				[]reflect.Type{
-					reflect.TypeOf(fixtures.PlainMessageA{}),
-					reflect.TypeOf(&fixtures.PlainMessageA{}),
+					reflect.TypeOf(MessageA{}),
+					reflect.TypeOf(&MessageA{}),
 				},
 				[]Codec{
 					&json.Codec{},
@@ -60,10 +60,10 @@ var _ = Describe("type Marshaler", func() {
 			)
 			Expect(err).To(Or(
 				MatchError(
-					"the type name 'PlainMessageA' is used by both 'fixtures.PlainMessageA' and '*fixtures.PlainMessageA'",
+					"the type name 'MessageA' is used by both 'fixtures.MessageA' and '*fixtures.MessageA'",
 				),
 				MatchError(
-					"the type name 'PlainMessageA' is used by both '*fixtures.PlainMessageA' and 'fixtures.PlainMessageA'",
+					"the type name 'MessageA' is used by both '*fixtures.MessageA' and 'fixtures.MessageA'",
 				),
 			))
 		})
@@ -71,15 +71,15 @@ var _ = Describe("type Marshaler", func() {
 		It("returns an error if there are unsupported types", func() {
 			_, err := NewMarshaler(
 				[]reflect.Type{
-					reflect.TypeOf(&fixtures.ProtoMessage{}),
-					reflect.TypeOf(fixtures.PlainMessageA{}),
+					reflect.TypeOf(&ProtoMessage{}),
+					reflect.TypeOf(MessageA{}),
 				},
 				[]Codec{
 					&protobuf.JSONCodec{},
 				},
 			)
 			Expect(err).To(MatchError(
-				"no codecs support the 'fixtures.PlainMessageA' type",
+				"no codecs support the 'fixtures.MessageA' type",
 			))
 		})
 	})
@@ -87,33 +87,33 @@ var _ = Describe("type Marshaler", func() {
 	Describe("func MarshalType()", func() {
 		It("returns the portable type name", func() {
 			n, err := marshaler.MarshalType(
-				reflect.TypeOf(fixtures.PlainMessageA{}),
+				reflect.TypeOf(MessageA{}),
 			)
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(n).To(Equal("PlainMessageA"))
+			Expect(n).To(Equal("MessageA"))
 		})
 
 		It("returns an error if the type is not supported", func() {
 			_, err := marshaler.MarshalType(
-				reflect.TypeOf(fixtures.PlainMessageC{}),
+				reflect.TypeOf(MessageC{}),
 			)
 			Expect(err).To(MatchError(
-				"no codecs support the 'fixtures.PlainMessageC' type",
+				"no codecs support the 'fixtures.MessageC' type",
 			))
 		})
 	})
 
 	Describe("func UnmarshalType()", func() {
 		It("returns the reflection type", func() {
-			t, err := marshaler.UnmarshalType("PlainMessageA")
+			t, err := marshaler.UnmarshalType("MessageA")
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(t).To(Equal(reflect.TypeOf(fixtures.PlainMessageA{})))
+			Expect(t).To(Equal(reflect.TypeOf(MessageA{})))
 		})
 
 		It("returns an error if the type name is not recognized", func() {
-			_, err := marshaler.UnmarshalType("PlainMessageC")
+			_, err := marshaler.UnmarshalType("MessageC")
 			Expect(err).To(MatchError(
-				"the portable type name 'PlainMessageC' is not recognized",
+				"the portable type name 'MessageC' is not recognized",
 			))
 		})
 	})
@@ -121,36 +121,36 @@ var _ = Describe("type Marshaler", func() {
 	Describe("func UnmarshalTypeFromMediaType()", func() {
 		It("returns the reflection type", func() {
 			t, err := marshaler.UnmarshalTypeFromMediaType(
-				"application/vnd.google.protobuf; type=PlainMessageA",
+				"application/vnd.google.protobuf; type=MessageA",
 			)
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(t).To(Equal(reflect.TypeOf(fixtures.PlainMessageA{})))
+			Expect(t).To(Equal(reflect.TypeOf(MessageA{})))
 		})
 
 		It("returns an error if the type name is not recognized", func() {
 			_, err := marshaler.UnmarshalTypeFromMediaType(
-				"application/vnd.google.protobuf; type=PlainMessageC",
+				"application/vnd.google.protobuf; type=MessageC",
 			)
 			Expect(err).To(MatchError(
-				"the portable type name 'PlainMessageC' is not recognized",
+				"the portable type name 'MessageC' is not recognized",
 			))
 		})
 	})
 
 	Describe("func Marshal()", func() {
 		It("marshals using the first suitable codec", func() {
-			p, err := marshaler.Marshal(fixtures.PlainMessageA{})
+			p, err := marshaler.Marshal(MessageA{})
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(p.MediaType).To(Equal("application/json; type=PlainMessageA"))
+			Expect(p.MediaType).To(Equal("application/json; type=MessageA"))
 
-			p, err = marshaler.Marshal(&fixtures.ProtoMessage{})
+			p, err = marshaler.Marshal(&ProtoMessage{})
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(p.MediaType).To(Equal("application/vnd.google.protobuf; type=dogmatiq.marshalkit.fixtures.ProtoMessage"))
 		})
 
 		It("returns an error if the codec fails", func() {
 			_, err := marshaler.Marshal(
-				&fixtures.ProtoMessage{
+				&ProtoMessage{
 					Value: string([]byte{0xfe}),
 				},
 			)
@@ -158,9 +158,9 @@ var _ = Describe("type Marshaler", func() {
 		})
 
 		It("returns an error if the type is not supported", func() {
-			_, err := marshaler.Marshal(fixtures.PlainMessageC{})
+			_, err := marshaler.Marshal(MessageC{})
 			Expect(err).To(MatchError(
-				"no codecs support the 'fixtures.PlainMessageC' type",
+				"no codecs support the 'fixtures.MessageC' type",
 			))
 		})
 	})
@@ -169,12 +169,12 @@ var _ = Describe("type Marshaler", func() {
 		It("marshals using the first suitable codec", func() {
 			v, err := marshaler.Unmarshal(
 				Packet{
-					"application/json; type=PlainMessageA",
+					"application/json; type=MessageA",
 					[]byte("{}"),
 				},
 			)
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(v).To(Equal(fixtures.PlainMessageA{}))
+			Expect(v).To(Equal(MessageA{}))
 
 			v, err = marshaler.Unmarshal(
 				Packet{
@@ -183,7 +183,7 @@ var _ = Describe("type Marshaler", func() {
 				},
 			)
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(v).To(Equal(&fixtures.ProtoMessage{}))
+			Expect(v).To(Equal(&ProtoMessage{}))
 		})
 
 		It("returns an error if the media-type is not supported", func() {
@@ -206,16 +206,16 @@ var _ = Describe("type Marshaler", func() {
 		})
 
 		It("returns an error if the type is not supported", func() {
-			_, err := marshaler.Unmarshal(Packet{"application/json; type=PlainMessageC", nil})
+			_, err := marshaler.Unmarshal(Packet{"application/json; type=MessageC", nil})
 			Expect(err).Should(MatchError(
-				"the portable type name 'PlainMessageC' is not recognized",
+				"the portable type name 'MessageC' is not recognized",
 			))
 		})
 
 		It("returns an error if the codec fails", func() {
 			_, err := marshaler.Unmarshal(
 				Packet{
-					"application/json; type=PlainMessageA",
+					"application/json; type=MessageA",
 					[]byte("{"),
 				},
 			)
@@ -226,12 +226,12 @@ var _ = Describe("type Marshaler", func() {
 	Describe("func MarshalMessage()", func() {
 		It("marshals the message using the marshaler", func() {
 			p, err := marshaler.MarshalMessage(
-				fixtures.PlainMessageA{
+				MessageA{
 					Value: "<value>",
 				},
 			)
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(p.MediaType).To(Equal("application/json; type=PlainMessageA"))
+			Expect(p.MediaType).To(Equal("application/json; type=MessageA"))
 			Expect(p.Data).To(Equal([]byte(`{"Value":"\u003cvalue\u003e"}`)))
 		})
 	})
@@ -240,13 +240,13 @@ var _ = Describe("type Marshaler", func() {
 		It("unmarshals the message using the marshaler", func() {
 			m, err := marshaler.UnmarshalMessage(
 				Packet{
-					"application/json; type=PlainMessageA",
+					"application/json; type=MessageA",
 					[]byte(`{"Value":"\u003cvalue\u003e"}`),
 				},
 			)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(m).To(Equal(
-				fixtures.PlainMessageA{
+				MessageA{
 					Value: "<value>",
 				},
 			))
@@ -255,11 +255,11 @@ var _ = Describe("type Marshaler", func() {
 		It("returns an error if the type is not registered", func() {
 			_, err := marshaler.UnmarshalMessage(
 				Packet{
-					"application/json; type=PlainMessageC",
+					"application/json; type=MessageC",
 					[]byte(`{"Value":"\u003cvalue\u003e"}`),
 				},
 			)
-			Expect(err).To(MatchError("the portable type name 'PlainMessageC' is not recognized"))
+			Expect(err).To(MatchError("the portable type name 'MessageC' is not recognized"))
 		})
 	})
 })
