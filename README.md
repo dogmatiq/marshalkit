@@ -1,4 +1,4 @@
-# marshalkit
+# Dogma Marshaling Toolkit
 
 [![Build Status](https://github.com/dogmatiq/marshalkit/workflows/CI/badge.svg)](https://github.com/dogmatiq/marshalkit/actions?workflow=CI)
 [![Code Coverage](https://img.shields.io/codecov/c/github/dogmatiq/marshalkit/master.svg)](https://codecov.io/github/dogmatiq/marshalkit)
