@@ -14,7 +14,7 @@ type Marshaler interface {
 func MustMarshal(ma Marshaler, v interface{}) Packet {
 	p, err := ma.Marshal(v)
 	if err != nil {
-		panic(err)
+		panic(PanicSentinel{err})
 	}
 
 	return p
@@ -25,7 +25,7 @@ func MustMarshal(ma Marshaler, v interface{}) Packet {
 func MustUnmarshal(ma Marshaler, p Packet) interface{} {
 	v, err := ma.Unmarshal(p)
 	if err != nil {
-		panic(err)
+		panic(PanicSentinel{err})
 	}
 
 	return v

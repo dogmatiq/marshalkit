@@ -23,7 +23,7 @@ func UnmarshalMessage(ma Marshaler, p Packet) (dogma.Message, error) {
 func MustMarshalMessage(ma Marshaler, m dogma.Message) Packet {
 	p, err := MarshalMessage(ma, m)
 	if err != nil {
-		panic(err)
+		panic(PanicSentinel{err})
 	}
 
 	return p
@@ -34,7 +34,7 @@ func MustMarshalMessage(ma Marshaler, m dogma.Message) Packet {
 func MustUnmarshalMessage(ma Marshaler, p Packet) dogma.Message {
 	m, err := UnmarshalMessage(ma, p)
 	if err != nil {
-		panic(err)
+		panic(PanicSentinel{err})
 	}
 
 	return m

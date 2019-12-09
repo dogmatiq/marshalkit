@@ -17,7 +17,7 @@ type TypeMarshaler interface {
 func MustMarshalType(ma TypeMarshaler, rt reflect.Type) string {
 	n, err := ma.MarshalType(rt)
 	if err != nil {
-		panic(err)
+		panic(PanicSentinel{err})
 	}
 
 	return n
@@ -28,7 +28,7 @@ func MustMarshalType(ma TypeMarshaler, rt reflect.Type) string {
 func MustUnmarshalType(ma TypeMarshaler, n string) reflect.Type {
 	t, err := ma.UnmarshalType(n)
 	if err != nil {
-		panic(err)
+		panic(PanicSentinel{err})
 	}
 
 	return t
