@@ -7,7 +7,7 @@ import (
 // NativeCodec is an implementation of marshalkit.Codec that marshals protocol
 // buffers messages in the native binary format.
 type NativeCodec struct {
-	codec
+	commonCodec
 }
 
 // MediaType returns the media-type used to identify values encoded by this

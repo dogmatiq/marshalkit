@@ -21,7 +21,7 @@ var DefaultJSONUnmarshaler = &jsonpb.Unmarshaler{
 // JSONCodec is an implementation of marshalkit.Codec that marshals protocol
 // buffers messages in text format.
 type JSONCodec struct {
-	codec
+	commonCodec
 
 	// Marshaler is the JSON marshaler used to marshal messages.
 	// If it is nil, DefaultJSONMarshaler is used.

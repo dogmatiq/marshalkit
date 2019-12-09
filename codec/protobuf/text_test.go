@@ -2,40 +2,34 @@ package protobuf_test
 
 import (
 	. "github.com/dogmatiq/dogma/fixtures"
-	. "github.com/dogmatiq/marshalkit/internal/fixtures"
-	. "github.com/dogmatiq/marshalkit/protobuf"
-	"github.com/golang/protobuf/proto"
+	. "github.com/dogmatiq/marshalkit/codec/internal/fixtures"
+	. "github.com/dogmatiq/marshalkit/codec/protobuf"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("type NativeCodec", func() {
-	var codec *NativeCodec
+var _ = Describe("type TextCodec", func() {
+	var codec *TextCodec
 
 	BeforeEach(func() {
-		codec = &NativeCodec{}
+		codec = &TextCodec{}
 	})
 
 	Describe("func MediaType()", func() {
 		It("returns the expected media-type", func() {
-			Expect(codec.MediaType()).To(Equal("application/vnd.google.protobuf"))
+			Expect(codec.MediaType()).To(Equal("text/vnd.google.protobuf"))
 		})
 	})
 
 	Describe("func Marshal()", func() {
 		It("marshals the value", func() {
-			m := &ProtoMessage{
-				Value: "<value>",
-			}
-
-			data, err := codec.Marshal(m)
+			data, err := codec.Marshal(
+				&ProtoMessage{
+					Value: "<value>",
+				},
+			)
 			Expect(err).ShouldNot(HaveOccurred())
-
-			expected, err := proto.Marshal(m)
-			Expect(err).ShouldNot(HaveOccurred())
-
-			Expect(err).ShouldNot(HaveOccurred())
-			Expect(data).To(Equal(expected))
+			Expect(string(data)).To(Equal(`value: "<value>"` + "\n"))
 		})
 
 		It("returns an error if the type is not a protocol buffers message", func() {
@@ -50,15 +44,10 @@ var _ = Describe("type NativeCodec", func() {
 
 	Describe("func Unmarshal()", func() {
 		It("unmarshals the data", func() {
-			m := &ProtoMessage{
-				Value: "<value>",
-			}
+			data := []byte(`value: "<value>"` + "\n")
 
-			data, err := codec.Marshal(m)
-			Expect(err).ShouldNot(HaveOccurred())
-
-			m = &ProtoMessage{}
-			err = codec.Unmarshal(data, m)
+			m := &ProtoMessage{}
+			err := codec.Unmarshal(data, m)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(m).To(Equal(
 				&ProtoMessage{

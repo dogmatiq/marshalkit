@@ -3,15 +3,15 @@ package protobuf
 import (
 	"reflect"
 
-	"github.com/dogmatiq/marshalkit"
+	"github.com/dogmatiq/marshalkit/codec"
 	"github.com/golang/protobuf/proto"
 )
 
-type codec struct{}
+type commonCodec struct{}
 
 // Query returns the capabilities of the codec for the given types.
-func (codec) Query(types []reflect.Type) marshalkit.CodecCapabilities {
-	caps := marshalkit.CodecCapabilities{
+func (commonCodec) Query(types []reflect.Type) codec.Capabilities {
+	caps := codec.Capabilities{
 		Types: map[reflect.Type]string{},
 	}
 

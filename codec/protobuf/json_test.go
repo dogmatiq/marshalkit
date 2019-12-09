@@ -2,22 +2,22 @@ package protobuf_test
 
 import (
 	. "github.com/dogmatiq/dogma/fixtures"
-	. "github.com/dogmatiq/marshalkit/internal/fixtures"
-	. "github.com/dogmatiq/marshalkit/protobuf"
+	. "github.com/dogmatiq/marshalkit/codec/internal/fixtures"
+	. "github.com/dogmatiq/marshalkit/codec/protobuf"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("type TextCodec", func() {
-	var codec *TextCodec
+var _ = Describe("type JSONCodec", func() {
+	var codec *JSONCodec
 
 	BeforeEach(func() {
-		codec = &TextCodec{}
+		codec = &JSONCodec{}
 	})
 
 	Describe("func MediaType()", func() {
 		It("returns the expected media-type", func() {
-			Expect(codec.MediaType()).To(Equal("text/vnd.google.protobuf"))
+			Expect(codec.MediaType()).To(Equal("application/vnd.google.protobuf+json"))
 		})
 	})
 
@@ -29,7 +29,7 @@ var _ = Describe("type TextCodec", func() {
 				},
 			)
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(string(data)).To(Equal(`value: "<value>"` + "\n"))
+			Expect(string(data)).To(Equal(`{"value":"\u003cvalue\u003e"}`))
 		})
 
 		It("returns an error if the type is not a protocol buffers message", func() {
@@ -44,7 +44,7 @@ var _ = Describe("type TextCodec", func() {
 
 	Describe("func Unmarshal()", func() {
 		It("unmarshals the data", func() {
-			data := []byte(`value: "<value>"` + "\n")
+			data := []byte(`{"value":"\u003cvalue\u003e"}`)
 
 			m := &ProtoMessage{}
 			err := codec.Unmarshal(data, m)
