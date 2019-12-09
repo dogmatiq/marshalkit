@@ -4,13 +4,13 @@ import (
 	"reflect"
 
 	. "github.com/dogmatiq/dogma/fixtures"
-	. "github.com/dogmatiq/marshalkit/internal/fixtures"
+	. "github.com/dogmatiq/marshalkit/codec/internal/fixtures"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("type TextCodec", func() {
-	var codec codec
+var _ = Describe("type commonCodec", func() {
+	var codec commonCodec
 
 	Describe("func Query()", func() {
 		It("uses the protocol name as the portable type", func() {

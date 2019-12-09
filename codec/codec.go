@@ -1,11 +1,11 @@
-package marshalkit
+package codec
 
 import "reflect"
 
 // Codec is an interface for encoding and decoding values.
 type Codec interface {
 	// Query returns the capabilities of the codec for the given types.
-	Query(types []reflect.Type) CodecCapabilities
+	Query(types []reflect.Type) Capabilities
 
 	// MediaType returns the media-type used to identify values encoded by this
 	// codec.
@@ -18,9 +18,9 @@ type Codec interface {
 	Unmarshal(data []byte, v interface{}) error
 }
 
-// CodecCapabilities describes the capabilities of a codec as it relates to
+// Capabilities describes the capabilities of a codec as it relates to
 // specific Go types.
-type CodecCapabilities struct {
+type Capabilities struct {
 	// Types is a map of the supported types to their portable type name.
 	Types map[reflect.Type]string
 }

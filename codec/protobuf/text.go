@@ -16,7 +16,7 @@ var DefaultTextMarshaler = &proto.TextMarshaler{
 // TextCodec is an implementation of marshalkit.Codec that marshals protocol
 // buffers messages in text format.
 type TextCodec struct {
-	codec
+	commonCodec
 
 	// Marshaler is the text marshaler used to marshal messages.
 	// If it is nil, DefaultTextMarshaler is used.

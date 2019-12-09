@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"reflect"
 
-	"github.com/dogmatiq/marshalkit"
+	"github.com/dogmatiq/marshalkit/codec"
 )
 
 // Codec is an implementation of marshalkit.Codec that uses Go's standard JSON
@@ -12,8 +12,8 @@ import (
 type Codec struct{}
 
 // Query returns the capabilities of the codec for the given types.
-func (*Codec) Query(types []reflect.Type) marshalkit.CodecCapabilities {
-	caps := marshalkit.CodecCapabilities{
+func (*Codec) Query(types []reflect.Type) codec.Capabilities {
+	caps := codec.Capabilities{
 		Types: map[reflect.Type]string{},
 	}
 
