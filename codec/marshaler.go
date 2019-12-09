@@ -98,7 +98,7 @@ func (m *Marshaler) MarshalType(rt reflect.Type) (string, error) {
 	)
 }
 
-// UnmarshalType marshals a type from its portable representation.
+// UnmarshalType unmarshals a type from its portable representation.
 func (m *Marshaler) UnmarshalType(n string) (reflect.Type, error) {
 	if rt, ok := m.types[n]; ok {
 		return rt, nil

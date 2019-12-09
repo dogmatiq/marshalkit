@@ -8,7 +8,7 @@ type TypeMarshaler interface {
 	// MarshalType marshals a type to its portable representation.
 	MarshalType(rt reflect.Type) (string, error)
 
-	// UnmarshalType marshals a type from its portable representation.
+	// UnmarshalType unmarshals a type from its portable representation.
 	UnmarshalType(n string) (reflect.Type, error)
 }
 
@@ -23,7 +23,7 @@ func MustMarshalType(ma TypeMarshaler, rt reflect.Type) string {
 	return n
 }
 
-// MustUnmarshalType unmarshals a typefrom its portable representation.
+// MustUnmarshalType unmarshals a type from its portable representation.
 // It panics if the type can not be unmarshaled.
 func MustUnmarshalType(ma TypeMarshaler, n string) reflect.Type {
 	t, err := ma.UnmarshalType(n)

@@ -153,7 +153,7 @@ var _ = Describe("type Marshaler", func() {
 	})
 
 	Describe("func Unmarshal()", func() {
-		It("marshals using the first suitable codec", func() {
+		It("unmarshals using the first suitable codec", func() {
 			v, err := marshaler.Unmarshal(
 				marshalkit.Packet{
 					MediaType: "application/json; type=MessageA",

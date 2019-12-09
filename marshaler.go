@@ -21,7 +21,7 @@ func MustMarshal(ma Marshaler, v interface{}) Packet {
 }
 
 // MustUnmarshal produces a value from its binary representation.
-// It panics if p can not be marshalled.
+// It panics if p can not be unmarshalled.
 func MustUnmarshal(ma Marshaler, p Packet) interface{} {
 	v, err := ma.Unmarshal(p)
 	if err != nil {
