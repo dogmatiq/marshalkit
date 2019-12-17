@@ -9,6 +9,13 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
+## [Unreleased]
+
+### Changed
+
+- **[BC]** Renamed `Marshaler` to `ValueMarshaler`
+- **[BC]** The `Marshaler` interface is now union of `TypeMarshaler` and `ValueMarshaler`
+
 ## [0.1.0] - 2019-12-09
 
 - Initial release

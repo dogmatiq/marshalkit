@@ -13,10 +13,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var (
-	_ marshalkit.ValueMarshaler = (*Marshaler)(nil)
-	_ marshalkit.TypeMarshaler  = (*Marshaler)(nil)
-)
+var _ marshalkit.Marshaler = (*Marshaler)(nil)
 
 var _ = Describe("type Marshaler", func() {
 	var marshaler *Marshaler
