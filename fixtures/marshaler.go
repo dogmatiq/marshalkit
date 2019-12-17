@@ -13,7 +13,7 @@ import (
 // root fixture types. It uses the JSON codec.
 var Marshaler interface {
 	marshalkit.TypeMarshaler
-	marshalkit.Marshaler
+	marshalkit.ValueMarshaler
 }
 
 func init() {

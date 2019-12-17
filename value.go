@@ -1,7 +1,7 @@
 package marshalkit
 
-// A Marshaler marshals and unmarshals arbitrary Go values.
-type Marshaler interface {
+// A ValueMarshaler marshals and unmarshals arbitrary Go values.
+type ValueMarshaler interface {
 	// Marshal returns a binary representation of v.
 	Marshal(v interface{}) (Packet, error)
 
@@ -11,7 +11,7 @@ type Marshaler interface {
 
 // MustMarshal returns a binary representation of v.
 // It panics if v can not be marshalled.
-func MustMarshal(ma Marshaler, v interface{}) Packet {
+func MustMarshal(ma ValueMarshaler, v interface{}) Packet {
 	p, err := ma.Marshal(v)
 	if err != nil {
 		panic(PanicSentinel{err})
@@ -22,7 +22,7 @@ func MustMarshal(ma Marshaler, v interface{}) Packet {
 
 // MustUnmarshal produces a value from its binary representation.
 // It panics if p can not be unmarshalled.
-func MustUnmarshal(ma Marshaler, p Packet) interface{} {
+func MustUnmarshal(ma ValueMarshaler, p Packet) interface{} {
 	v, err := ma.Unmarshal(p)
 	if err != nil {
 		panic(PanicSentinel{err})

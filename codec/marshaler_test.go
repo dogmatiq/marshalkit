@@ -14,8 +14,8 @@ import (
 )
 
 var (
-	_ marshalkit.Marshaler     = (*Marshaler)(nil)
-	_ marshalkit.TypeMarshaler = (*Marshaler)(nil)
+	_ marshalkit.ValueMarshaler = (*Marshaler)(nil)
+	_ marshalkit.TypeMarshaler  = (*Marshaler)(nil)
 )
 
 var _ = Describe("type Marshaler", func() {
