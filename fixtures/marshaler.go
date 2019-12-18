@@ -11,10 +11,7 @@ import (
 
 // Marshaler is a marshaler that is aware of the message and aggregate/process
 // root fixture types. It uses the JSON codec.
-var Marshaler interface {
-	marshalkit.TypeMarshaler
-	marshalkit.Marshaler
-}
+var Marshaler marshalkit.Marshaler
 
 func init() {
 	m, err := codec.NewMarshaler(

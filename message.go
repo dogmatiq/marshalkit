@@ -3,12 +3,12 @@ package marshalkit
 import "github.com/dogmatiq/dogma"
 
 // MarshalMessage returns a binary representation of a message.
-func MarshalMessage(ma Marshaler, m dogma.Message) (Packet, error) {
+func MarshalMessage(ma ValueMarshaler, m dogma.Message) (Packet, error) {
 	return ma.Marshal(m)
 }
 
 // UnmarshalMessage returns a message from its binary representation.
-func UnmarshalMessage(ma Marshaler, p Packet) (dogma.Message, error) {
+func UnmarshalMessage(ma ValueMarshaler, p Packet) (dogma.Message, error) {
 	// Note: Unmarshal() returns interface{}, which works at the moment because
 	// dogma.Message is also empty.
 	//
@@ -20,7 +20,7 @@ func UnmarshalMessage(ma Marshaler, p Packet) (dogma.Message, error) {
 
 // MustMarshalMessage returns a binary representation of a message.
 // It panics if the message can not be marshaled.
-func MustMarshalMessage(ma Marshaler, m dogma.Message) Packet {
+func MustMarshalMessage(ma ValueMarshaler, m dogma.Message) Packet {
 	p, err := MarshalMessage(ma, m)
 	if err != nil {
 		panic(PanicSentinel{err})
@@ -31,7 +31,7 @@ func MustMarshalMessage(ma Marshaler, m dogma.Message) Packet {
 
 // MustUnmarshalMessage returns a message from its binary representation.
 // It panics if the message can not be unmarshaled.
-func MustUnmarshalMessage(ma Marshaler, p Packet) dogma.Message {
+func MustUnmarshalMessage(ma ValueMarshaler, p Packet) dogma.Message {
 	m, err := UnmarshalMessage(ma, p)
 	if err != nil {
 		panic(PanicSentinel{err})
