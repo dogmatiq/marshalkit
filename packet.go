@@ -18,12 +18,12 @@ type Packet struct {
 // NewPacket returns a new packet.
 //
 // mt is the MIME media-type describing the content and encoding of the binary
-// data. t is marshaled value's portable type name.
-func NewPacket(mt string, t string, data []byte) Packet {
+// data. n is the marshaled value's portable type name.
+func NewPacket(mt string, n string, data []byte) Packet {
 	return Packet{
 		mime.FormatMediaType(
 			mt,
-			map[string]string{"type": t},
+			map[string]string{"type": n},
 		),
 		data,
 	}
@@ -31,9 +31,6 @@ func NewPacket(mt string, t string, data []byte) Packet {
 
 // ParseMediaType returns the media-type and the portable type name encoded in
 // the packet's MIME media-type.
-//
-// This is equivalent to the string that MarshalType() would return for the
-// unmarshaled value.
 func (p *Packet) ParseMediaType() (string, string, error) {
 	mt, params, err := mime.ParseMediaType(p.MediaType)
 	if err != nil {
