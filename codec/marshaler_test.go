@@ -172,7 +172,7 @@ var _ = Describe("type Marshaler", func() {
 
 		It("returns an error if the media-type is not supported", func() {
 			_, err := marshaler.Unmarshal(marshalkit.Packet{
-				MediaType: "text/plain",
+				MediaType: "text/plain; type=MessageA",
 			})
 			Expect(err).To(MatchError(
 				"no codecs support the 'text/plain' media-type",
@@ -214,5 +214,4 @@ var _ = Describe("type Marshaler", func() {
 			Expect(err).Should(HaveOccurred())
 		})
 	})
-
 })
