@@ -2,7 +2,6 @@ package codec
 
 import (
 	"fmt"
-	"mime"
 	"reflect"
 
 	"github.com/dogmatiq/marshalkit"
@@ -120,13 +119,11 @@ func (m *Marshaler) Marshal(v interface{}) (marshalkit.Packet, error) {
 			return marshalkit.Packet{}, err
 		}
 
-		return marshalkit.Packet{
-			MediaType: mime.FormatMediaType(
-				c.MediaType(),
-				map[string]string{"type": m.names[rt]},
-			),
-			Data: data,
-		}, nil
+		return marshalkit.NewPacket(
+			c.MediaType(),
+			m.names[rt],
+			data,
+		), nil
 	}
 
 	return marshalkit.Packet{}, fmt.Errorf(
@@ -137,7 +134,7 @@ func (m *Marshaler) Marshal(v interface{}) (marshalkit.Packet, error) {
 
 // Unmarshal produces a value from its binary representation.
 func (m *Marshaler) Unmarshal(p marshalkit.Packet) (interface{}, error) {
-	c, rt, err := m.unpackMediaType(p.MediaType)
+	c, rt, err := m.unpackMediaType(p)
 	if err != nil {
 		return nil, err
 	}
@@ -163,8 +160,8 @@ func (m *Marshaler) Unmarshal(p marshalkit.Packet) (interface{}, error) {
 	return v.Interface(), nil
 }
 
-func (m *Marshaler) unpackMediaType(s string) (Codec, reflect.Type, error) {
-	mt, params, err := mime.ParseMediaType(s)
+func (m *Marshaler) unpackMediaType(p marshalkit.Packet) (Codec, reflect.Type, error) {
+	mt, n, err := p.ParseMediaType()
 	if err != nil {
 		return nil, nil, err
 	}
@@ -173,14 +170,6 @@ func (m *Marshaler) unpackMediaType(s string) (Codec, reflect.Type, error) {
 	if !ok {
 		return nil, nil, fmt.Errorf(
 			"no codecs support the '%s' media-type",
-			mt,
-		)
-	}
-
-	n, ok := params["type"]
-	if !ok {
-		return nil, nil, fmt.Errorf(
-			"the media-type '%s' does not specify a 'type' parameter",
 			mt,
 		)
 	}
