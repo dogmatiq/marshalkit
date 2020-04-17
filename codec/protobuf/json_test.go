@@ -4,6 +4,7 @@ import (
 	. "github.com/dogmatiq/dogma/fixtures"
 	. "github.com/dogmatiq/marshalkit/codec/internal/fixtures"
 	. "github.com/dogmatiq/marshalkit/codec/protobuf"
+	. "github.com/jmalloc/gomegax"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -49,7 +50,7 @@ var _ = Describe("type JSONCodec", func() {
 			m := &ProtoMessage{}
 			err := codec.Unmarshal(data, m)
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(m).To(Equal(
+			Expect(m).To(EqualX(
 				&ProtoMessage{
 					Value: "<value>",
 				},

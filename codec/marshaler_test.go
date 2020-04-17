@@ -9,6 +9,7 @@ import (
 	. "github.com/dogmatiq/marshalkit/codec/internal/fixtures"
 	"github.com/dogmatiq/marshalkit/codec/json"
 	"github.com/dogmatiq/marshalkit/codec/protobuf"
+	. "github.com/jmalloc/gomegax"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -167,7 +168,7 @@ var _ = Describe("type Marshaler", func() {
 				},
 			)
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(v).To(Equal(&ProtoMessage{}))
+			Expect(v).To(EqualX(&ProtoMessage{}))
 		})
 
 		It("returns an error if the media-type is not supported", func() {
