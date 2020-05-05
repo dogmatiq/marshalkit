@@ -8,5 +8,5 @@ require (
 	github.com/jmalloc/gomegax v0.0.0-20200417012726-d7192fca6e53
 	github.com/onsi/ginkgo v1.12.0
 	github.com/onsi/gomega v1.9.0
-	google.golang.org/protobuf v1.21.0
+	google.golang.org/protobuf v1.22.0
 )
