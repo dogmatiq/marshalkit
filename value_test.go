@@ -12,11 +12,11 @@ var _ = Describe("func MustMarshal()", func() {
 	It("marshals the value using the marshaler", func() {
 		p := MustMarshal(
 			fixtures.Marshaler,
-			&AggregateRoot{
+			&ProcessRoot{
 				Value: "<value>",
 			},
 		)
-		Expect(p.MediaType).To(Equal("application/json; type=AggregateRoot"))
+		Expect(p.MediaType).To(Equal("application/json; type=ProcessRoot"))
 		Expect(p.Data).To(Equal([]byte(`{"Value":"\u003cvalue\u003e"}`)))
 	})
 
@@ -35,12 +35,12 @@ var _ = Describe("func MustUnmarshal()", func() {
 		v := MustUnmarshal(
 			fixtures.Marshaler,
 			Packet{
-				"application/json; type=AggregateRoot",
+				"application/json; type=ProcessRoot",
 				[]byte(`{"Value":"\u003cvalue\u003e"}`),
 			},
 		)
 		Expect(v).To(Equal(
-			&AggregateRoot{
+			&ProcessRoot{
 				Value: "<value>",
 			},
 		))

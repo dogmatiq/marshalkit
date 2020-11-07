@@ -1,9 +1,9 @@
 module github.com/dogmatiq/marshalkit
 
-go 1.13
+go 1.15
 
 require (
-	github.com/dogmatiq/dogma v0.8.0
+	github.com/dogmatiq/dogma v0.9.0
 	github.com/golang/protobuf v1.4.3
 	github.com/jmalloc/gomegax v0.0.0-20200507221434-64fca4c0e03a
 	github.com/onsi/ginkgo v1.14.2
