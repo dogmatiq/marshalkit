@@ -9,11 +9,17 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
+## [0.4.0] - 2020-11-07
+
+### Changed
+
+- Updated Dogma to v0.9.0
+
 ## [0.3.0] - 2020-11-03
 
 ### Changed
 
-- Bumped Dogma to v0.8.0
+- Updated Dogma to v0.8.0
 
 ## [0.2.2] - 2020-03-26
 
