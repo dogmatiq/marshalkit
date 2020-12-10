@@ -11,8 +11,9 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## [Unreleased]
 
-- Removed redundant marshalling utility functions `MarshalMessage()`,
-  `UnmarshalMessage()`, `MustMarshalMessage()`, and `MustUnmarshalMessage()`
+### Removed
+
+- **[BC]** Remove `MarshalMessage()`, `UnmarshalMessage()`, `MustMarshalMessage()`, and `MustUnmarshalMessage()`
 
 ## [0.4.0] - 2020-11-07
 
