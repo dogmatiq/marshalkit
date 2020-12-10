@@ -9,6 +9,11 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
+## [Unreleased]
+
+- Removed redundant marshalling utility functions `MarshalMessage()`,
+  `UnmarshalMessage()`, `MustMarshalMessage()`, and `MustUnmarshalMessage()`
+
 ## [0.4.0] - 2020-11-07
 
 ### Changed
