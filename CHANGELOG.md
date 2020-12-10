@@ -15,6 +15,9 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 - **[BC]** Added `MarshalAs()` method to `ValueMarshaler`
 - Added `String()` method to `PanicSentinel`
+- Added `MustMarshalMessageIntoEnvelope()` and `UnmarshalMessageFromEnvelope()`
+- Added `MustMarshalEnvelopeIdentity()` and `UnmarshalEnvelopeIdentity()`
+- Added `MustMarshalEnvelopeTime()` and `UnmarshalEnvelopeTime()`
 
 ### Changed
 
