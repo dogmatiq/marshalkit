@@ -25,3 +25,7 @@ type PanicSentinel struct {
 	// Cause is the error that caused the panic.
 	Cause error
 }
+
+func (s PanicSentinel) String() string {
+	return s.Cause.Error()
+}

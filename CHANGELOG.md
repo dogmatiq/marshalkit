@@ -11,6 +11,10 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- Added `String()` method to `PanicSentinel`
+
 ### Removed
 
 - **[BC]** Remove `MarshalMessage()`, `UnmarshalMessage()`, `MustMarshalMessage()`, and `MustUnmarshalMessage()`
