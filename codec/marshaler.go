@@ -2,6 +2,7 @@ package codec
 
 import (
 	"fmt"
+	"github.com/dogmatiq/marshalkit/internal/mimex"
 	"reflect"
 
 	"github.com/dogmatiq/marshalkit"
@@ -14,6 +15,7 @@ type Marshaler struct {
 	decoders map[string]Codec
 	names    map[reflect.Type]string
 	types    map[string]reflect.Type
+	mtypes   map[reflect.Type][]string
 }
 
 // NewMarshaler returns a new marshaler that uses the given set of codecs to
@@ -29,6 +31,7 @@ func NewMarshaler(
 		decoders: map[string]Codec{},
 		names:    map[reflect.Type]string{},
 		types:    map[string]reflect.Type{},
+		mtypes:   map[reflect.Type][]string{},
 	}
 
 	// build a list of all of the "unsupported" types
@@ -43,6 +46,11 @@ func NewMarshaler(
 
 		if len(caps.Types) > 0 {
 			for rt, n := range caps.Types {
+				m.mtypes[rt] = append(
+					m.mtypes[rt],
+					mimex.FormatMediaType(c.BasicMediaType(), n),
+				)
+
 				if _, ok := m.encoders[rt]; ok {
 					// a higher priority codec has already "claimed" this type
 					continue
@@ -158,6 +166,12 @@ func (m *Marshaler) Unmarshal(p marshalkit.Packet) (interface{}, error) {
 	}
 
 	return v.Interface(), nil
+}
+
+// MediaTypesFor returns the list of supported media types for unmarshaling
+// the given type.
+func (m *Marshaler) MediaTypesFor(rt reflect.Type) []string {
+	return m.mtypes[rt]
 }
 
 func (m *Marshaler) unpackMediaType(p marshalkit.Packet) (Codec, reflect.Type, error) {
