@@ -1,8 +1,7 @@
 package marshalkit
 
 import (
-	"fmt"
-	"mime"
+	"github.com/dogmatiq/marshalkit/internal/mimex"
 )
 
 // Packet is a container of marshaled data and its related meta-data.
@@ -21,10 +20,7 @@ type Packet struct {
 // data. n is the marshaled value's portable type name.
 func NewPacket(mt string, n string, data []byte) Packet {
 	return Packet{
-		mime.FormatMediaType(
-			mt,
-			map[string]string{"type": n},
-		),
+		mimex.FormatMediaType(mt, n),
 		data,
 	}
 }
@@ -32,17 +28,5 @@ func NewPacket(mt string, n string, data []byte) Packet {
 // ParseMediaType returns the media-type and the portable type name encoded in
 // the packet's MIME media-type.
 func (p *Packet) ParseMediaType() (string, string, error) {
-	mt, params, err := mime.ParseMediaType(p.MediaType)
-	if err != nil {
-		return "", "", err
-	}
-
-	if n, ok := params["type"]; ok {
-		return mt, n, nil
-	}
-
-	return "", "", fmt.Errorf(
-		"the media-type '%s' does not specify a 'type' parameter",
-		p.MediaType,
-	)
+	return mimex.ParseMediaType(p.MediaType)
 }

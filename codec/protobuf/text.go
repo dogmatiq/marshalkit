@@ -23,9 +23,9 @@ type TextCodec struct {
 	Marshaler *proto.TextMarshaler
 }
 
-// MediaType returns the media-type used to identify values encoded by this
-// codec.
-func (c *TextCodec) MediaType() string {
+// BasicMediaType returns the type and subtype portion of the media-type used to
+// identify data encoded by this codec.
+func (c *TextCodec) BasicMediaType() string {
 	return "text/vnd.google.protobuf"
 }
 

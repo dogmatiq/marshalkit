@@ -7,9 +7,9 @@ type Codec interface {
 	// Query returns the capabilities of the codec for the given types.
 	Query(types []reflect.Type) Capabilities
 
-	// MediaType returns the media-type used to identify values encoded by this
-	// codec.
-	MediaType() string
+	// BasicMediaType returns the type and subtype portion of the media-type
+	// used to identify data encoded by this codec.
+	BasicMediaType() string
 
 	// Marshal returns the binary representation of v.
 	Marshal(v interface{}) ([]byte, error)

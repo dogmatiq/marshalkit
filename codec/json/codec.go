@@ -26,9 +26,9 @@ func (*Codec) Query(types []reflect.Type) codec.Capabilities {
 	return caps
 }
 
-// MediaType returns the media-type used to identify data encoded by this
-// codec.
-func (*Codec) MediaType() string {
+// BasicMediaType returns the type and subtype portion of the media-type used to
+// identify data encoded by this codec.
+func (*Codec) BasicMediaType() string {
 	return "application/json"
 }
 

@@ -16,9 +16,9 @@ var _ = Describe("type TextCodec", func() {
 		codec = &TextCodec{}
 	})
 
-	Describe("func MediaType()", func() {
-		It("returns the expected media-type", func() {
-			Expect(codec.MediaType()).To(Equal("text/vnd.google.protobuf"))
+	Describe("func BasicMediaType()", func() {
+		It("returns the expected basic media-type", func() {
+			Expect(codec.BasicMediaType()).To(Equal("text/vnd.google.protobuf"))
 		})
 	})
 

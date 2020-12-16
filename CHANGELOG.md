@@ -15,6 +15,10 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 - Added `String()` method to `PanicSentinel`
 
+### Changed
+
+- **[BC]** Rename `codec.Codec.MediaType()` to `BasicMediaType()`
+
 ### Removed
 
 - **[BC]** Remove `MarshalMessage()`, `UnmarshalMessage()`, `MustMarshalMessage()`, and `MustUnmarshalMessage()`

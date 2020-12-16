@@ -32,9 +32,9 @@ type JSONCodec struct {
 	Unmarshaler *jsonpb.Unmarshaler
 }
 
-// MediaType returns the media-type used to identify values encoded by this
-// codec.
-func (c *JSONCodec) MediaType() string {
+// BasicMediaType returns the type and subtype portion of the media-type used to
+// identify data encoded by this codec.
+func (c *JSONCodec) BasicMediaType() string {
 	return "application/vnd.google.protobuf+json"
 }
 
