@@ -217,18 +217,18 @@ var _ = Describe("type Marshaler", func() {
 	})
 
 	Describe("func MediaTypesFor()", func() {
-		It("returns media types for the existing message type in order of codec priority", func() {
+		It("returns media types in order of codec priority", func() {
 			mt := marshaler.MediaTypesFor(reflect.TypeOf(&ProtoMessage{}))
-			Expect(mt).To(HaveLen(3))
-
-			Expect(mt[0]).To(Equal("application/vnd.google.protobuf; type=dogmatiq.marshalkit.fixtures.ProtoMessage"))
-			Expect(mt[1]).To(Equal("application/vnd.google.protobuf+json; type=dogmatiq.marshalkit.fixtures.ProtoMessage"))
-			Expect(mt[2]).To(Equal("application/json; type=ProtoMessage"))
+			Expect(mt).To(Equal([]string{
+				"application/vnd.google.protobuf; type=dogmatiq.marshalkit.fixtures.ProtoMessage",
+				"application/vnd.google.protobuf+json; type=dogmatiq.marshalkit.fixtures.ProtoMessage",
+				"application/json; type=ProtoMessage",
+			})
 		})
 
-		It("returns an empty slice for a non-existing message type", func() {
+		It("returns an empty slice when given an unsupported message type", func() {
 			mt := marshaler.MediaTypesFor(reflect.TypeOf(&MessageC{}))
-			Expect(mt).To(HaveLen(0))
+			Expect(mt).To(BeEmpty())
 		})
 	})
 })
