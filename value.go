@@ -13,7 +13,7 @@ type ValueMarshaler interface {
 	Unmarshal(p Packet) (interface{}, error)
 
 	// MediaTypesFor returns the the media-types that the marshaler can use to
-	// represent the given type, in order of preference. 
+	// represent the given type, in order of preference.
 	//
 	// It returns an empty slice if the type is not supported.
 	MediaTypesFor(reflect.Type) []string
