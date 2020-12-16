@@ -168,7 +168,7 @@ func (m *Marshaler) Unmarshal(p marshalkit.Packet) (interface{}, error) {
 	return v.Interface(), nil
 }
 
-// MediaTypesFor returns the the media-types that the marshaler can use to
+// MediaTypesFor returns the media-types that the marshaler can use to
 // represent the given type, in order of preference.
 //
 // It returns an empty slice if the type is not supported.
