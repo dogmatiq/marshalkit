@@ -16,9 +16,9 @@ var _ = Describe("type JSONCodec", func() {
 		codec = &JSONCodec{}
 	})
 
-	Describe("func MediaType()", func() {
-		It("returns the expected media-type", func() {
-			Expect(codec.MediaType()).To(Equal("application/vnd.google.protobuf+json"))
+	Describe("func BasicMediaType()", func() {
+		It("returns the expected basic media-type", func() {
+			Expect(codec.BasicMediaType()).To(Equal("application/vnd.google.protobuf+json"))
 		})
 	})
 

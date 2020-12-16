@@ -51,9 +51,9 @@ var _ = Describe("type Codec", func() {
 		})
 	})
 
-	Describe("func MediaType()", func() {
-		It("returns the expected media-type", func() {
-			Expect(codec.MediaType()).To(Equal("application/json"))
+	Describe("func BasicMediaType()", func() {
+		It("returns the expected basic media-type", func() {
+			Expect(codec.BasicMediaType()).To(Equal("application/json"))
 		})
 	})
 

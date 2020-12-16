@@ -64,14 +64,14 @@ func NewMarshaler(
 				delete(unsupported, rt)
 			}
 
-			if _, ok := m.decoders[c.MediaType()]; ok {
+			if _, ok := m.decoders[c.BasicMediaType()]; ok {
 				return nil, fmt.Errorf(
 					"multiple codecs use the '%s' media-type",
-					c.MediaType(),
+					c.BasicMediaType(),
 				)
 			}
 
-			m.decoders[c.MediaType()] = c
+			m.decoders[c.BasicMediaType()] = c
 		}
 	}
 
@@ -120,7 +120,7 @@ func (m *Marshaler) Marshal(v interface{}) (marshalkit.Packet, error) {
 		}
 
 		return marshalkit.NewPacket(
-			c.MediaType(),
+			c.BasicMediaType(),
 			m.names[rt],
 			data,
 		), nil

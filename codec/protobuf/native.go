@@ -10,9 +10,9 @@ type NativeCodec struct {
 	commonCodec
 }
 
-// MediaType returns the media-type used to identify values encoded by this
-// codec.
-func (c *NativeCodec) MediaType() string {
+// BasicMediaType returns the type and subtype portion of the media-type used to
+// identify data encoded by this codec.
+func (c *NativeCodec) BasicMediaType() string {
 	return "application/vnd.google.protobuf"
 }
 

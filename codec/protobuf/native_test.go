@@ -17,9 +17,9 @@ var _ = Describe("type NativeCodec", func() {
 		codec = &NativeCodec{}
 	})
 
-	Describe("func MediaType()", func() {
-		It("returns the expected media-type", func() {
-			Expect(codec.MediaType()).To(Equal("application/vnd.google.protobuf"))
+	Describe("func BasicMediaType()", func() {
+		It("returns the expected basic media-type", func() {
+			Expect(codec.BasicMediaType()).To(Equal("application/vnd.google.protobuf"))
 		})
 	})
 
