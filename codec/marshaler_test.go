@@ -223,7 +223,7 @@ var _ = Describe("type Marshaler", func() {
 				"application/vnd.google.protobuf; type=dogmatiq.marshalkit.fixtures.ProtoMessage",
 				"application/vnd.google.protobuf+json; type=dogmatiq.marshalkit.fixtures.ProtoMessage",
 				"application/json; type=ProtoMessage",
-			})
+			}))
 		})
 
 		It("returns an empty slice when given an unsupported message type", func() {
