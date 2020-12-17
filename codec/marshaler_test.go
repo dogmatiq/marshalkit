@@ -215,4 +215,20 @@ var _ = Describe("type Marshaler", func() {
 			Expect(err).Should(HaveOccurred())
 		})
 	})
+
+	Describe("func MediaTypesFor()", func() {
+		It("returns media types in order of codec priority", func() {
+			mt := marshaler.MediaTypesFor(reflect.TypeOf(&ProtoMessage{}))
+			Expect(mt).To(Equal([]string{
+				"application/vnd.google.protobuf; type=dogmatiq.marshalkit.fixtures.ProtoMessage",
+				"application/vnd.google.protobuf+json; type=dogmatiq.marshalkit.fixtures.ProtoMessage",
+				"application/json; type=ProtoMessage",
+			}))
+		})
+
+		It("returns an empty slice when given an unsupported message type", func() {
+			mt := marshaler.MediaTypesFor(reflect.TypeOf(&MessageC{}))
+			Expect(mt).To(BeEmpty())
+		})
+	})
 })

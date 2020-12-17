@@ -1,5 +1,9 @@
 package marshalkit
 
+import (
+	"reflect"
+)
+
 // A ValueMarshaler marshals and unmarshals arbitrary Go values.
 type ValueMarshaler interface {
 	// Marshal returns a binary representation of v.
@@ -7,6 +11,12 @@ type ValueMarshaler interface {
 
 	// Unmarshal produces a value from its binary representation.
 	Unmarshal(p Packet) (interface{}, error)
+
+	// MediaTypesFor returns the media-types that the marshaler can use to
+	// represent the given type, in order of preference.
+	//
+	// It returns an empty slice if the type is not supported.
+	MediaTypesFor(reflect.Type) []string
 }
 
 // MustMarshal returns a binary representation of v.
