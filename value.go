@@ -9,6 +9,12 @@ type ValueMarshaler interface {
 	// Marshal returns a binary representation of v.
 	Marshal(v interface{}) (Packet, error)
 
+	// MarshalAs returns a binary representation of v in the format described by
+	// a specific media-type.
+	//
+	// If the given media-type is not supported, an error is returned.
+	MarshalAs(v interface{}, mt string) (Packet, error)
+
 	// Unmarshal produces a value from its binary representation.
 	Unmarshal(p Packet) (interface{}, error)
 

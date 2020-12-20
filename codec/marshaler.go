@@ -16,8 +16,8 @@ type Marshaler struct {
 		portableName string
 		mediaTypes   []string
 	}
-	decoderByBasicMediaType map[string]Codec
-	typeByPortableName      map[string]reflect.Type
+	codecByBasicMediaType map[string]Codec
+	typeByPortableName    map[string]reflect.Type
 }
 
 // NewMarshaler returns a new marshaler that uses the given set of codecs to
@@ -34,8 +34,8 @@ func NewMarshaler(
 			portableName string
 			mediaTypes   []string
 		}{},
-		decoderByBasicMediaType: map[string]Codec{},
-		typeByPortableName:      map[string]reflect.Type{},
+		codecByBasicMediaType: map[string]Codec{},
+		typeByPortableName:    map[string]reflect.Type{},
 	}
 
 	// build a list of all of the "unsupported" types
@@ -78,14 +78,14 @@ func NewMarshaler(
 				delete(unsupported, rt)
 			}
 
-			if _, ok := m.decoderByBasicMediaType[c.BasicMediaType()]; ok {
+			if _, ok := m.codecByBasicMediaType[c.BasicMediaType()]; ok {
 				return nil, fmt.Errorf(
 					"multiple codecs use the '%s' media-type",
 					c.BasicMediaType(),
 				)
 			}
 
-			m.decoderByBasicMediaType[c.BasicMediaType()] = c
+			m.codecByBasicMediaType[c.BasicMediaType()] = c
 		}
 	}
 
@@ -146,6 +146,38 @@ func (m *Marshaler) Marshal(v interface{}) (marshalkit.Packet, error) {
 	)
 }
 
+// MarshalAs returns a binary representation of v in the format described by
+// a specific media-type.
+//
+// If the given media-type is not supported, an error is returned.
+func (m *Marshaler) MarshalAs(v interface{}, mt string) (marshalkit.Packet, error) {
+	rt := reflect.TypeOf(v)
+
+	basic, n, err := mimex.ParseMediaType(mt)
+	if err != nil {
+		return marshalkit.Packet{}, err
+	}
+
+	if c, ok := m.codecByBasicMediaType[basic]; ok && m.types[rt].portableName == n {
+		data, err := c.Marshal(v)
+		if err != nil {
+			return marshalkit.Packet{}, err
+		}
+
+		return marshalkit.NewPacket(
+			c.BasicMediaType(),
+			n,
+			data,
+		), nil
+	}
+
+	return marshalkit.Packet{}, fmt.Errorf(
+		"no codecs support marshaling the '%T' type as %s",
+		v,
+		mt,
+	)
+}
+
 // Unmarshal produces a value from its binary representation.
 func (m *Marshaler) Unmarshal(p marshalkit.Packet) (interface{}, error) {
 	c, rt, err := m.unpackMediaType(p)
@@ -188,7 +220,7 @@ func (m *Marshaler) unpackMediaType(p marshalkit.Packet) (Codec, reflect.Type, e
 		return nil, nil, err
 	}
 
-	c, ok := m.decoderByBasicMediaType[mt]
+	c, ok := m.codecByBasicMediaType[mt]
 	if !ok {
 		return nil, nil, fmt.Errorf(
 			"no codecs support the '%s' media-type",

@@ -150,6 +150,66 @@ var _ = Describe("type Marshaler", func() {
 		})
 	})
 
+	Describe("func MarshalAs()", func() {
+		It("marshals using the codec associated with the given media type", func() {
+			p, err := marshaler.MarshalAs(
+				MessageA{},
+				"application/json; type=MessageA",
+			)
+			Expect(err).ShouldNot(HaveOccurred())
+			Expect(p.MediaType).To(Equal("application/json; type=MessageA"))
+			Expect(p.Data).To(Equal([]byte(`{"Value":null}`)))
+
+			p, err = marshaler.MarshalAs(
+				&ProtoMessage{
+					Value: "<value>",
+				},
+				"application/vnd.google.protobuf; type=dogmatiq.marshalkit.fixtures.ProtoMessage",
+			)
+			Expect(err).ShouldNot(HaveOccurred())
+			Expect(p.MediaType).To(Equal("application/vnd.google.protobuf; type=dogmatiq.marshalkit.fixtures.ProtoMessage"))
+			Expect(p.Data).To(Equal([]byte{10, 7, 60, 118, 97, 108, 117, 101, 62}))
+		})
+
+		It("returns an error if the media-type is malformed", func() {
+			_, err := marshaler.MarshalAs(
+				MessageA{},
+				"<malformed>",
+			)
+			Expect(err).Should(HaveOccurred())
+		})
+
+		It("returns an error if the codec fails", func() {
+			_, err := marshaler.MarshalAs(
+				&ProtoMessage{
+					Value: string([]byte{0xfe}),
+				},
+				"application/vnd.google.protobuf; type=dogmatiq.marshalkit.fixtures.ProtoMessage",
+			)
+			Expect(err).Should(HaveOccurred())
+		})
+
+		It("returns an error if the type is not supported", func() {
+			_, err := marshaler.MarshalAs(
+				MessageC{},
+				"application/json; type=MessageC",
+			)
+			Expect(err).To(MatchError(
+				"no codecs support marshaling the 'fixtures.MessageC' type as application/json; type=MessageC",
+			))
+		})
+
+		It("returns an error if the portable name in the media-type does not match the value's type", func() {
+			_, err := marshaler.MarshalAs(
+				MessageA{},
+				"application/json; type=MessageC",
+			)
+			Expect(err).To(MatchError(
+				"no codecs support marshaling the 'fixtures.MessageA' type as application/json; type=MessageC",
+			))
+		})
+	})
+
 	Describe("func Unmarshal()", func() {
 		It("unmarshals using the first suitable codec", func() {
 			v, err := marshaler.Unmarshal(
