@@ -5,7 +5,6 @@ import (
 	"reflect"
 
 	"github.com/dogmatiq/marshalkit/internal/mimex"
-
 	"github.com/dogmatiq/marshalkit"
 )
 
