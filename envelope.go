@@ -8,7 +8,7 @@ import (
 	"github.com/dogmatiq/interopspec/envelopespec"
 )
 
-// MustMarshalMessageIntoEnvelope marshals a Dogma message into an envelope.
+// MustMarshalMessageIntoEnvelope marshals a Dogma message into an envelopespec.Envelope.
 func MustMarshalMessageIntoEnvelope(
 	vm ValueMarshaler,
 	m dogma.Message,
@@ -28,7 +28,7 @@ func MustMarshalMessageIntoEnvelope(
 	env.Data = p.Data
 }
 
-// UnmarshalMessageFromEnvelope unmarshals a Dogma message from an envelope.
+// UnmarshalMessageFromEnvelope unmarshals a Dogma message from an envelopespec.Envelope
 func UnmarshalMessageFromEnvelope(
 	vm ValueMarshaler,
 	env *envelopespec.Envelope,
@@ -42,7 +42,7 @@ func UnmarshalMessageFromEnvelope(
 }
 
 // MustMarshalEnvelopeIdentity marshals id to its protocol buffers
-// representation, as used within message envelopes.
+// representation, as used within envelopespec.Envelope.
 func MustMarshalEnvelopeIdentity(id configkit.Identity) *envelopespec.Identity {
 	return &envelopespec.Identity{
 		Name: id.Name,
@@ -51,13 +51,13 @@ func MustMarshalEnvelopeIdentity(id configkit.Identity) *envelopespec.Identity {
 }
 
 // UnmarshalEnvelopeIdentity unmarshals id from its protocol buffers
-// representation, as used within message envelopes.
+// representation, as used within envelopespec.Envelope.
 func UnmarshalEnvelopeIdentity(id *envelopespec.Identity) (configkit.Identity, error) {
 	return configkit.NewIdentity(id.Name, id.Key)
 }
 
 // MustMarshalEnvelopeTime marshals t to its RFC-3339 representation, as used
-// within envelopes.
+// within envelopespec.Envelope.
 func MustMarshalEnvelopeTime(t time.Time) string {
 	if t.IsZero() {
 		return ""
@@ -66,7 +66,7 @@ func MustMarshalEnvelopeTime(t time.Time) string {
 	return t.Format(time.RFC3339Nano)
 }
 
-// UnmarshalEnvelopeTime unmarshals a t from its RFC-3339 representation, as
+// UnmarshalEnvelopeTime unmarshals t from its RFC-3339 representation, as
 // used within envelopes.
 func UnmarshalEnvelopeTime(t string) (time.Time, error) {
 	if len(t) == 0 {
