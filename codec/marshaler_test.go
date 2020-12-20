@@ -152,16 +152,14 @@ var _ = Describe("type Marshaler", func() {
 
 	Describe("func MarshalAs()", func() {
 		It("marshals using the codec associated with the given media type", func() {
-			expected := []byte("{\"Value\":null}")
 			p, err := marshaler.MarshalAs(
 				MessageA{},
 				"application/json; type=MessageA",
 			)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(p.MediaType).To(Equal("application/json; type=MessageA"))
-			Expect(p.Data).To(Equal(expected))
+			Expect(p.Data).To(Equal([]byte(`{"Value":null}`)))
 
-			expected = []byte{10, 7, 60, 118, 97, 108, 117, 101, 62}
 			p, err = marshaler.MarshalAs(
 				&ProtoMessage{
 					Value: "<value>",
@@ -170,7 +168,7 @@ var _ = Describe("type Marshaler", func() {
 			)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(p.MediaType).To(Equal("application/vnd.google.protobuf; type=dogmatiq.marshalkit.fixtures.ProtoMessage"))
-			Expect(p.Data).To(Equal(expected))
+			Expect(p.Data).To(Equal([]byte{10, 7, 60, 118, 97, 108, 117, 101, 62}))
 		})
 
 		It("returns an error if the media-type is malformed", func() {
