@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Added
 
+- **[BC]** Added `MarshalAs()` method to `ValueMarshaler`
 - Added `String()` method to `PanicSentinel`
 
 ### Changed
