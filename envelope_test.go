@@ -5,7 +5,7 @@ import (
 
 	"github.com/dogmatiq/configkit"
 	. "github.com/dogmatiq/dogma/fixtures"
-	. "github.com/dogmatiq/envelopespec"
+	. "github.com/dogmatiq/interopspec/envelopespec"
 	. "github.com/dogmatiq/marshalkit"
 	"github.com/dogmatiq/marshalkit/fixtures"
 	. "github.com/jmalloc/gomegax"
