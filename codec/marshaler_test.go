@@ -151,7 +151,7 @@ var _ = Describe("type Marshaler", func() {
 	})
 
 	Describe("func MarshalAs()", func() {
-		It("marshals using the given suitable codec", func() {
+		It("marshals using the codec associated with the given media type", func() {
 			expected := []byte("{\"Value\":null}")
 			p, err := marshaler.MarshalAs(
 				MessageA{},
@@ -201,7 +201,7 @@ var _ = Describe("type Marshaler", func() {
 			))
 		})
 
-		It("returns an error if the portable name does not match", func() {
+		It("returns an error if the portable name in the media-type does not match the value's type", func() {
 			_, err := marshaler.MarshalAs(
 				MessageA{},
 				"application/json; type=MessageC",
