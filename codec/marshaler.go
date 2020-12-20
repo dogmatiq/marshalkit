@@ -12,13 +12,13 @@ import (
 // Marshaler uses a set of priority-ordered codecs to marshal and unmarshal
 // types and values.
 type Marshaler struct {
-	byType map[reflect.Type]struct {
+	types map[reflect.Type]struct {
 		encoder      Codec
 		portableName string
 		mediaTypes   []string
 	}
-	byBasicMediaType map[string]Codec
-	byName           map[string]reflect.Type
+	decoderByBasicMediaType map[string]Codec
+	typeByPortableName           map[string]reflect.Type
 }
 
 // NewMarshaler returns a new marshaler that uses the given set of codecs to
