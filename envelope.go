@@ -67,7 +67,7 @@ func MustMarshalEnvelopeTime(t time.Time) string {
 }
 
 // UnmarshalEnvelopeTime unmarshals t from its RFC-3339 representation, as
-// used within envelopes.
+// used within envelopespec.Envelope.
 func UnmarshalEnvelopeTime(t string) (time.Time, error) {
 	if len(t) == 0 {
 		return time.Time{}, nil
