@@ -13,7 +13,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("func MarshalMessage()", func() {
+var _ = Describe("func MustMarshalMessageIntoEnvelope()", func() {
 	It("marshals the message into the envelope", func() {
 		var env Envelope
 
@@ -33,7 +33,7 @@ var _ = Describe("func MarshalMessage()", func() {
 	})
 })
 
-var _ = Describe("func UnmarshalMessage()", func() {
+var _ = Describe("func UnmarshalMessageFromEnvelope()", func() {
 	It("unmarshals the message from the envelope", func() {
 		env := &Envelope{
 			PortableName: fixtures.MessageAPortableName,
@@ -47,7 +47,7 @@ var _ = Describe("func UnmarshalMessage()", func() {
 	})
 })
 
-var _ = Describe("func MarshalIdentity()", func() {
+var _ = Describe("func MustMarshalEnvelopeIdentity()", func() {
 	It("returns the protocol buffers identity", func() {
 		in := configkit.MustNewIdentity("<name>", "<key>")
 
@@ -61,7 +61,7 @@ var _ = Describe("func MarshalIdentity()", func() {
 	})
 })
 
-var _ = Describe("func UnmarshalIdentity()", func() {
+var _ = Describe("func UnmarshalEnvelopeIdentity()", func() {
 	It("returns the configkit identity", func() {
 		in := &Identity{
 			Name: "<name>",
@@ -76,7 +76,7 @@ var _ = Describe("func UnmarshalIdentity()", func() {
 	})
 })
 
-var _ = Describe("func MarshalTime()", func() {
+var _ = Describe("func MustMarshalEnvelopeTime()", func() {
 	It("returns the time formatted as per RFC-3339", func() {
 		in := time.Date(2001, 02, 03, 04, 05, 06, 0, time.UTC)
 
@@ -92,7 +92,7 @@ var _ = Describe("func MarshalTime()", func() {
 	})
 })
 
-var _ = Describe("func UnmarshalTime()", func() {
+var _ = Describe("func UnmarshalEnvelopeTime()", func() {
 	It("parses the time from RFC-3339 format", func() {
 		in := "2001-02-03T04:05:06Z"
 
