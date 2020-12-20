@@ -2,20 +2,22 @@ package codec
 
 import (
 	"fmt"
-	"github.com/dogmatiq/marshalkit/internal/mimex"
 	"reflect"
 
 	"github.com/dogmatiq/marshalkit"
+	"github.com/dogmatiq/marshalkit/internal/mimex"
 )
 
 // Marshaler uses a set of priority-ordered codecs to marshal and unmarshal
 // types and values.
 type Marshaler struct {
-	encoders map[reflect.Type]Codec
-	decoders map[string]Codec
-	names    map[reflect.Type]string
-	types    map[string]reflect.Type
-	mtypes   map[reflect.Type][]string
+	types map[reflect.Type]struct {
+		encoder      Codec
+		portableName string
+		mediaTypes   []string
+	}
+	decoderByBasicMediaType map[string]Codec
+	typeByPortableName      map[string]reflect.Type
 }
 
 // NewMarshaler returns a new marshaler that uses the given set of codecs to
@@ -27,11 +29,13 @@ func NewMarshaler(
 	codecs []Codec,
 ) (*Marshaler, error) {
 	m := &Marshaler{
-		encoders: map[reflect.Type]Codec{},
-		decoders: map[string]Codec{},
-		names:    map[reflect.Type]string{},
-		types:    map[string]reflect.Type{},
-		mtypes:   map[reflect.Type][]string{},
+		types: map[reflect.Type]struct {
+			encoder      Codec
+			portableName string
+			mediaTypes   []string
+		}{},
+		decoderByBasicMediaType: map[string]Codec{},
+		typeByPortableName:      map[string]reflect.Type{},
 	}
 
 	// build a list of all of the "unsupported" types
@@ -46,17 +50,7 @@ func NewMarshaler(
 
 		if len(caps.Types) > 0 {
 			for rt, n := range caps.Types {
-				m.mtypes[rt] = append(
-					m.mtypes[rt],
-					mimex.FormatMediaType(c.BasicMediaType(), n),
-				)
-
-				if _, ok := m.encoders[rt]; ok {
-					// a higher priority codec has already "claimed" this type
-					continue
-				}
-
-				if x, ok := m.types[n]; ok {
+				if x, ok := m.typeByPortableName[n]; ok && x != rt {
 					return nil, fmt.Errorf(
 						"the type name '%s' is used by both '%s' and '%s'",
 						n,
@@ -65,21 +59,33 @@ func NewMarshaler(
 					)
 				}
 
-				m.encoders[rt] = c
-				m.names[rt] = n
-				m.types[n] = rt
+				m.typeByPortableName[n] = rt
+
+				bt, ok := m.types[rt]
+
+				if !ok {
+					bt.encoder = c
+					bt.portableName = n
+				}
+
+				bt.mediaTypes = append(
+					bt.mediaTypes,
+					mimex.FormatMediaType(c.BasicMediaType(), n),
+				)
+
+				m.types[rt] = bt
 
 				delete(unsupported, rt)
 			}
 
-			if _, ok := m.decoders[c.BasicMediaType()]; ok {
+			if _, ok := m.decoderByBasicMediaType[c.BasicMediaType()]; ok {
 				return nil, fmt.Errorf(
 					"multiple codecs use the '%s' media-type",
 					c.BasicMediaType(),
 				)
 			}
 
-			m.decoders[c.BasicMediaType()] = c
+			m.decoderByBasicMediaType[c.BasicMediaType()] = c
 		}
 	}
 
@@ -95,8 +101,8 @@ func NewMarshaler(
 
 // MarshalType marshals a type to its portable representation.
 func (m *Marshaler) MarshalType(rt reflect.Type) (string, error) {
-	if n, ok := m.names[rt]; ok {
-		return n, nil
+	if bt, ok := m.types[rt]; ok {
+		return bt.portableName, nil
 	}
 
 	return "", fmt.Errorf(
@@ -107,7 +113,7 @@ func (m *Marshaler) MarshalType(rt reflect.Type) (string, error) {
 
 // UnmarshalType unmarshals a type from its portable representation.
 func (m *Marshaler) UnmarshalType(n string) (reflect.Type, error) {
-	if rt, ok := m.types[n]; ok {
+	if rt, ok := m.typeByPortableName[n]; ok {
 		return rt, nil
 	}
 
@@ -121,15 +127,15 @@ func (m *Marshaler) UnmarshalType(n string) (reflect.Type, error) {
 func (m *Marshaler) Marshal(v interface{}) (marshalkit.Packet, error) {
 	rt := reflect.TypeOf(v)
 
-	if c, ok := m.encoders[rt]; ok {
-		data, err := c.Marshal(v)
+	if bt, ok := m.types[rt]; ok {
+		data, err := bt.encoder.Marshal(v)
 		if err != nil {
 			return marshalkit.Packet{}, err
 		}
 
 		return marshalkit.NewPacket(
-			c.BasicMediaType(),
-			m.names[rt],
+			bt.encoder.BasicMediaType(),
+			bt.portableName,
 			data,
 		), nil
 	}
@@ -173,7 +179,7 @@ func (m *Marshaler) Unmarshal(p marshalkit.Packet) (interface{}, error) {
 //
 // It returns an empty slice if the type is not supported.
 func (m *Marshaler) MediaTypesFor(rt reflect.Type) []string {
-	return m.mtypes[rt]
+	return m.types[rt].mediaTypes
 }
 
 func (m *Marshaler) unpackMediaType(p marshalkit.Packet) (Codec, reflect.Type, error) {
@@ -182,7 +188,7 @@ func (m *Marshaler) unpackMediaType(p marshalkit.Packet) (Codec, reflect.Type, e
 		return nil, nil, err
 	}
 
-	c, ok := m.decoders[mt]
+	c, ok := m.decoderByBasicMediaType[mt]
 	if !ok {
 		return nil, nil, fmt.Errorf(
 			"no codecs support the '%s' media-type",
@@ -190,7 +196,7 @@ func (m *Marshaler) unpackMediaType(p marshalkit.Packet) (Codec, reflect.Type, e
 		)
 	}
 
-	rt, ok := m.types[n]
+	rt, ok := m.typeByPortableName[n]
 	if !ok {
 		return nil, nil, fmt.Errorf(
 			"the portable type name '%s' is not recognized",
