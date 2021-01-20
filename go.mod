@@ -3,7 +3,7 @@ module github.com/dogmatiq/marshalkit
 go 1.15
 
 require (
-	github.com/dogmatiq/configkit v0.9.1
+	github.com/dogmatiq/configkit v0.10.0
 	github.com/dogmatiq/dogma v0.10.0
 	github.com/dogmatiq/interopspec v0.4.0
 	github.com/golang/protobuf v1.4.3
