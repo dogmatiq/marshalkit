@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 ### Added
 
 - **[BC]** Added `MarshalAs()` method to `ValueMarshaler`
+- **[BC]** Added `MediaTypesFor()` method to `ValueMarshaler`
 - Added `String()` method to `PanicSentinel`
 - Added `MustMarshalMessageIntoEnvelope()` and `UnmarshalMessageFromEnvelope()`
 - Added `MustMarshalEnvelopeIdentity()` and `UnmarshalEnvelopeIdentity()`
