@@ -12,9 +12,9 @@ import (
 // types and values.
 type Marshaler struct {
 	types map[reflect.Type]struct {
-		encoder      Codec
-		portableName string
-		mediaTypes   []string
+		defaultEncoder      Codec
+		defaultPortableName string
+		mediaTypes          []string
 	}
 	codecByBasicMediaType map[string]Codec
 	typeByPortableName    map[string]reflect.Type
@@ -30,9 +30,9 @@ func NewMarshaler(
 ) (*Marshaler, error) {
 	m := &Marshaler{
 		types: map[reflect.Type]struct {
-			encoder      Codec
-			portableName string
-			mediaTypes   []string
+			defaultEncoder      Codec
+			defaultPortableName string
+			mediaTypes          []string
 		}{},
 		codecByBasicMediaType: map[string]Codec{},
 		typeByPortableName:    map[string]reflect.Type{},
@@ -64,8 +64,8 @@ func NewMarshaler(
 				bt, ok := m.types[rt]
 
 				if !ok {
-					bt.encoder = c
-					bt.portableName = n
+					bt.defaultEncoder = c
+					bt.defaultPortableName = n
 				}
 
 				bt.mediaTypes = append(
@@ -102,7 +102,7 @@ func NewMarshaler(
 // MarshalType marshals a type to its portable representation.
 func (m *Marshaler) MarshalType(rt reflect.Type) (string, error) {
 	if bt, ok := m.types[rt]; ok {
-		return bt.portableName, nil
+		return bt.defaultPortableName, nil
 	}
 
 	return "", fmt.Errorf(
@@ -128,14 +128,14 @@ func (m *Marshaler) Marshal(v interface{}) (marshalkit.Packet, error) {
 	rt := reflect.TypeOf(v)
 
 	if bt, ok := m.types[rt]; ok {
-		data, err := bt.encoder.Marshal(v)
+		data, err := bt.defaultEncoder.Marshal(v)
 		if err != nil {
 			return marshalkit.Packet{}, err
 		}
 
 		return marshalkit.NewPacket(
-			bt.encoder.BasicMediaType(),
-			bt.portableName,
+			bt.defaultEncoder.BasicMediaType(),
+			bt.defaultPortableName,
 			data,
 		), nil
 	}
@@ -158,7 +158,7 @@ func (m *Marshaler) MarshalAs(v interface{}, mt string) (marshalkit.Packet, erro
 		return marshalkit.Packet{}, err
 	}
 
-	if c, ok := m.codecByBasicMediaType[basic]; ok && m.types[rt].portableName == n {
+	if c, ok := m.codecByBasicMediaType[basic]; ok && m.typeByPortableName[n] == rt {
 		data, err := c.Marshal(v)
 		if err != nil {
 			return marshalkit.Packet{}, err
