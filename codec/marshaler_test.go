@@ -124,13 +124,23 @@ var _ = Describe("type Marshaler", func() {
 
 	Describe("func Marshal()", func() {
 		It("marshals using the first suitable codec", func() {
-			p, err := marshaler.Marshal(MessageA{})
+			p, err := marshaler.Marshal(
+				MessageA{
+					Value: "<value>",
+				},
+			)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(p.MediaType).To(Equal("application/json; type=MessageA"))
+			Expect(p.Data).To(Equal([]byte(`{"Value":"\u003cvalue\u003e"}`)))
 
-			p, err = marshaler.Marshal(&ProtoMessage{})
+			p, err = marshaler.Marshal(
+				&ProtoMessage{
+					Value: "<value>",
+				},
+			)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(p.MediaType).To(Equal("application/vnd.google.protobuf; type=dogmatiq.marshalkit.fixtures.ProtoMessage"))
+			Expect(p.Data).To(Equal([]byte{10, 7, 60, 118, 97, 108, 117, 101, 62}))
 		})
 
 		It("returns an error if the codec fails", func() {
@@ -153,12 +163,14 @@ var _ = Describe("type Marshaler", func() {
 	Describe("func MarshalAs()", func() {
 		It("marshals using the codec associated with the given media type", func() {
 			p, err := marshaler.MarshalAs(
-				MessageA{},
+				MessageA{
+					Value: "<value>",
+				},
 				"application/json; type=MessageA",
 			)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(p.MediaType).To(Equal("application/json; type=MessageA"))
-			Expect(p.Data).To(Equal([]byte(`{"Value":null}`)))
+			Expect(p.Data).To(Equal([]byte(`{"Value":"\u003cvalue\u003e"}`)))
 
 			p, err = marshaler.MarshalAs(
 				&ProtoMessage{
@@ -169,6 +181,16 @@ var _ = Describe("type Marshaler", func() {
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(p.MediaType).To(Equal("application/vnd.google.protobuf; type=dogmatiq.marshalkit.fixtures.ProtoMessage"))
 			Expect(p.Data).To(Equal([]byte{10, 7, 60, 118, 97, 108, 117, 101, 62}))
+
+			p, err = marshaler.MarshalAs(
+				&ProtoMessage{
+					Value: "<value>",
+				},
+				"application/json; type=ProtoMessage",
+			)
+			Expect(err).ShouldNot(HaveOccurred())
+			Expect(p.MediaType).To(Equal("application/json; type=ProtoMessage"))
+			Expect(p.Data).To(Equal([]byte(`{"value":"\u003cvalue\u003e"}`)))
 		})
 
 		It("returns an error if the media-type is malformed", func() {

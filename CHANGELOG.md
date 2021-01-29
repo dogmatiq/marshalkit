@@ -9,6 +9,12 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
+## [Unreleased]
+
+### Fixed
+
+- Fix `MarshalAs()` issue that prevented encoding when the media-type's portable name differed to that of the default codec
+
 ## [0.5.0] - 2021-01-20
 
 ### Added
