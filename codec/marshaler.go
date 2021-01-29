@@ -146,36 +146,42 @@ func (m *Marshaler) Marshal(v interface{}) (marshalkit.Packet, error) {
 	)
 }
 
-// MarshalAs returns a binary representation of v in the format described by
-// a specific media-type.
+// MarshalAs returns a binary representation of v encoded using a format
+// associated with one of the supplied media-types.
 //
-// If the given media-type is not supported, an error is returned.
-func (m *Marshaler) MarshalAs(v interface{}, mt string) (marshalkit.Packet, error) {
-	rt := reflect.TypeOf(v)
-
-	basic, n, err := mimex.ParseMediaType(mt)
-	if err != nil {
-		return marshalkit.Packet{}, err
+// mediaTypes is a list of acceptible media-types, in order of preference.
+// If none of the media-types are supported, ok is false.
+func (m *Marshaler) MarshalAs(
+	v interface{},
+	mediaTypes []string,
+) (p marshalkit.Packet, ok bool, err error) {
+	if len(mediaTypes) == 0 {
+		panic("at least one media-type must be provided")
 	}
 
-	if c, ok := m.codecByBasicMediaType[basic]; ok && m.typeByPortableName[n] == rt {
-		data, err := c.Marshal(v)
+	for _, mt := range mediaTypes {
+		rt := reflect.TypeOf(v)
+
+		basic, n, err := mimex.ParseMediaType(mt)
 		if err != nil {
-			return marshalkit.Packet{}, err
+			return marshalkit.Packet{}, false, err
 		}
 
-		return marshalkit.NewPacket(
-			c.BasicMediaType(),
-			n,
-			data,
-		), nil
+		if c, ok := m.codecByBasicMediaType[basic]; ok && m.typeByPortableName[n] == rt {
+			data, err := c.Marshal(v)
+			if err != nil {
+				return marshalkit.Packet{}, false, err
+			}
+
+			return marshalkit.NewPacket(
+				c.BasicMediaType(),
+				n,
+				data,
+			), true, nil
+		}
 	}
 
-	return marshalkit.Packet{}, fmt.Errorf(
-		"no codecs support marshaling the '%T' type as %s",
-		v,
-		mt,
-	)
+	return marshalkit.Packet{}, false, nil
 }
 
 // Unmarshal produces a value from its binary representation.
