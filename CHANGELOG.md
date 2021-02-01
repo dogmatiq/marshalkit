@@ -11,6 +11,11 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- **[BC]** `ValueMarshaler.MarshalAs()` now accepts multiple media-types in order of preference
+- **[BC]** `ValueMarshaler.MarshalAs()` now returns a boolean to indicate unsupported media-types
+
 ### Fixed
 
 - Fix `MarshalAs()` issue that prevented encoding when the media-type's portable name differed to that of the default codec

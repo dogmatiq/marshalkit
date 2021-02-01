@@ -162,73 +162,126 @@ var _ = Describe("type Marshaler", func() {
 
 	Describe("func MarshalAs()", func() {
 		It("marshals using the codec associated with the given media type", func() {
-			p, err := marshaler.MarshalAs(
+			p, ok, err := marshaler.MarshalAs(
 				MessageA{
 					Value: "<value>",
 				},
-				"application/json; type=MessageA",
+				[]string{
+					"application/json; type=MessageA",
+				},
 			)
 			Expect(err).ShouldNot(HaveOccurred())
+			Expect(ok).To(BeTrue())
 			Expect(p.MediaType).To(Equal("application/json; type=MessageA"))
 			Expect(p.Data).To(Equal([]byte(`{"Value":"\u003cvalue\u003e"}`)))
 
-			p, err = marshaler.MarshalAs(
+			p, ok, err = marshaler.MarshalAs(
 				&ProtoMessage{
 					Value: "<value>",
 				},
-				"application/vnd.google.protobuf; type=dogmatiq.marshalkit.fixtures.ProtoMessage",
+				[]string{
+					"application/vnd.google.protobuf; type=dogmatiq.marshalkit.fixtures.ProtoMessage",
+				},
 			)
 			Expect(err).ShouldNot(HaveOccurred())
+			Expect(ok).To(BeTrue())
 			Expect(p.MediaType).To(Equal("application/vnd.google.protobuf; type=dogmatiq.marshalkit.fixtures.ProtoMessage"))
 			Expect(p.Data).To(Equal([]byte{10, 7, 60, 118, 97, 108, 117, 101, 62}))
 
-			p, err = marshaler.MarshalAs(
+			p, ok, err = marshaler.MarshalAs(
 				&ProtoMessage{
 					Value: "<value>",
 				},
-				"application/json; type=ProtoMessage",
+				[]string{
+					"application/json; type=ProtoMessage",
+				},
 			)
 			Expect(err).ShouldNot(HaveOccurred())
+			Expect(ok).To(BeTrue())
 			Expect(p.MediaType).To(Equal("application/json; type=ProtoMessage"))
 			Expect(p.Data).To(Equal([]byte(`{"value":"\u003cvalue\u003e"}`)))
 		})
 
-		It("returns an error if the media-type is malformed", func() {
-			_, err := marshaler.MarshalAs(
+		It("marshals using the codec associated with the highest priority media-type", func() {
+			p, ok, err := marshaler.MarshalAs(
+				&ProtoMessage{
+					Value: "<value>",
+				},
+				[]string{
+					"application/json; type=ProtoMessage",
+					"application/vnd.google.protobuf; type=dogmatiq.marshalkit.fixtures.ProtoMessage",
+				},
+			)
+			Expect(err).ShouldNot(HaveOccurred())
+			Expect(ok).To(BeTrue())
+			Expect(p.MediaType).To(Equal("application/json; type=ProtoMessage"))
+			Expect(p.Data).To(Equal([]byte(`{"value":"\u003cvalue\u003e"}`)))
+		})
+
+		It("ignores unsupported media-types", func() {
+			p, ok, err := marshaler.MarshalAs(
 				MessageA{},
-				"<malformed>",
+				[]string{
+					"application/binary; type=MessageA",
+					"application/json; type=MessageA",
+				},
+			)
+			Expect(err).ShouldNot(HaveOccurred())
+			Expect(ok).To(BeTrue())
+			Expect(p.MediaType).To(Equal("application/json; type=MessageA"))
+		})
+
+		It("returns an error if the media-type is malformed", func() {
+			_, _, err := marshaler.MarshalAs(
+				MessageA{},
+				[]string{
+					"<malformed>",
+				},
 			)
 			Expect(err).Should(HaveOccurred())
 		})
 
 		It("returns an error if the codec fails", func() {
-			_, err := marshaler.MarshalAs(
+			_, _, err := marshaler.MarshalAs(
 				&ProtoMessage{
 					Value: string([]byte{0xfe}),
 				},
-				"application/vnd.google.protobuf; type=dogmatiq.marshalkit.fixtures.ProtoMessage",
+				[]string{
+					"application/vnd.google.protobuf; type=dogmatiq.marshalkit.fixtures.ProtoMessage",
+				},
 			)
 			Expect(err).Should(HaveOccurred())
 		})
 
-		It("returns an error if the type is not supported", func() {
-			_, err := marshaler.MarshalAs(
+		It("returns false if the media-type is not supported", func() {
+			_, ok, err := marshaler.MarshalAs(
 				MessageC{},
-				"application/json; type=MessageC",
+				[]string{
+					"application/json; type=MessageC",
+				},
 			)
-			Expect(err).To(MatchError(
-				"no codecs support marshaling the 'fixtures.MessageC' type as application/json; type=MessageC",
-			))
+			Expect(err).ShouldNot(HaveOccurred())
+			Expect(ok).To(BeFalse())
 		})
 
-		It("returns an error if the portable name in the media-type does not match the value's type", func() {
-			_, err := marshaler.MarshalAs(
+		It("returns false if the portable name in the media-type does not match the value's type", func() {
+			_, ok, err := marshaler.MarshalAs(
 				MessageA{},
-				"application/json; type=MessageC",
+				[]string{
+					"application/json; type=MessageC",
+				},
 			)
-			Expect(err).To(MatchError(
-				"no codecs support marshaling the 'fixtures.MessageA' type as application/json; type=MessageC",
-			))
+			Expect(err).ShouldNot(HaveOccurred())
+			Expect(ok).To(BeFalse())
+		})
+
+		It("panics if no media-types are provided", func() {
+			Expect(func() {
+				marshaler.MarshalAs(
+					MessageA{},
+					nil,
+				)
+			}).To(PanicWith("at least one media-type must be provided"))
 		})
 	})
 
