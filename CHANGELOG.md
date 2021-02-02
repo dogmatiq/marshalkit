@@ -11,6 +11,10 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- Add `codec/cbor` package
+
 ### Changed
 
 - **[BC]** `ValueMarshaler.MarshalAs()` now accepts multiple media-types in order of preference
