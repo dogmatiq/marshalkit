@@ -28,8 +28,8 @@ var _ = Describe("type Marshaler", func() {
 				reflect.TypeOf(MessageB{}),
 			},
 			[]Codec{
-				&protobuf.NativeCodec{},
-				&protobuf.JSONCodec{},
+				&protobuf.DefaultNativeCodec,
+				&protobuf.DefaultJSONCodec,
 				&json.Codec{},
 			},
 		)
@@ -79,7 +79,7 @@ var _ = Describe("type Marshaler", func() {
 					reflect.TypeOf(MessageA{}),
 				},
 				[]Codec{
-					&protobuf.JSONCodec{},
+					&protobuf.DefaultJSONCodec,
 				},
 			)
 			Expect(err).To(MatchError(

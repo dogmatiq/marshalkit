@@ -9,11 +9,11 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("type JSONCodec", func() {
-	var codec *JSONCodec
+var _ = Describe("type Codec (configured for JSON format)", func() {
+	var codec Codec
 
 	BeforeEach(func() {
-		codec = &JSONCodec{}
+		codec = DefaultJSONCodec
 	})
 
 	Describe("func BasicMediaType()", func() {
@@ -30,7 +30,7 @@ var _ = Describe("type JSONCodec", func() {
 				},
 			)
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(string(data)).To(Equal(`{"value":"\u003cvalue\u003e"}`))
+			Expect(string(data)).To(Equal(`{"value":"<value>"}`))
 		})
 
 		It("returns an error if the type is not a protocol buffers message", func() {
@@ -45,7 +45,7 @@ var _ = Describe("type JSONCodec", func() {
 
 	Describe("func Unmarshal()", func() {
 		It("unmarshals the data", func() {
-			data := []byte(`{"value":"\u003cvalue\u003e"}`)
+			data := []byte(`{"value":"<value>"}`)
 
 			m := &ProtoMessage{}
 			err := codec.Unmarshal(data, m)

@@ -4,17 +4,17 @@ import (
 	. "github.com/dogmatiq/dogma/fixtures"
 	. "github.com/dogmatiq/marshalkit/codec/internal/fixtures"
 	. "github.com/dogmatiq/marshalkit/codec/protobuf"
-	"github.com/golang/protobuf/proto"
 	. "github.com/jmalloc/gomegax"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"google.golang.org/protobuf/proto"
 )
 
-var _ = Describe("type NativeCodec", func() {
-	var codec *NativeCodec
+var _ = Describe("type Codec (configured for the native wire protocol format)", func() {
+	var codec Codec
 
 	BeforeEach(func() {
-		codec = &NativeCodec{}
+		codec = DefaultNativeCodec
 	})
 
 	Describe("func BasicMediaType()", func() {
