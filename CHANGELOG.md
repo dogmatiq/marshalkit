@@ -9,6 +9,29 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
+## [Unreleased]
+
+This release upgrades the protocol buffers implementation to use
+`google.golang.org/protobuf` instead of `github.com/golang/protobuf`.
+
+There have been several breaking changes to marshalkit's `protobuf` package,
+although the functionality remains the same.
+
+In summary, the various codec types in this package have been replaced by a
+single `Codec` type which is configured for different encoding formats by using
+different marshalers/unmarshalers provided by `google.golang.org/protobuf`.
+
+### Added
+
+- Add `protobuf.Codec`, `Marshaler` and `Unmarshaler`
+- Add `protobuf.NativeBasicMediaType`, `DefaultNativeMarshaler` and `DefaultNativeMarshaler`
+- Add `protobuf.JSONBasicMediaType`, `DefaultJSONMarshaler` and `DefaultJSONMarshaler`
+- Add `protobuf.TextBasicMediaType`, `DefaultTextMarshaler` and `DefaultTextMarshaler`
+
+### Removed
+
+- Remove `protobuf.NativeCodec`, `JSONCodec` and `TextCodec`
+
 ## [0.6.0] - 2021-02-03
 
 ### Added

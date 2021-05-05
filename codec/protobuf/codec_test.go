@@ -9,8 +9,8 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("type commonCodec", func() {
-	var codec commonCodec
+var _ = Describe("type Codec", func() {
+	var codec Codec
 
 	Describe("func Query()", func() {
 		It("uses the protocol name as the portable type", func() {

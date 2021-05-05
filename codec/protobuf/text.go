@@ -1,60 +1,29 @@
 package protobuf
 
 import (
-	"bytes"
-
-	"github.com/golang/protobuf/proto"
+	"google.golang.org/protobuf/encoding/prototext"
 )
+
+// TextBasicMediaType is the type and subtype portion of the media-type used to
+// identify data encoded in the protocol buffers text format.
+const TextBasicMediaType = "text/vnd.google.protobuf"
 
 // DefaultTextMarshaler is the text marshaler used by TextCodec if none is
 // provided.
-var DefaultTextMarshaler = &proto.TextMarshaler{
-	Compact:   false,
-	ExpandAny: true,
+var DefaultTextMarshaler = prototext.MarshalOptions{
+	Multiline: true,
 }
 
-// TextCodec is an implementation of marshalkit.Codec that marshals protocol
-// buffers messages in text format.
-type TextCodec struct {
-	commonCodec
-
-	// Marshaler is the text marshaler used to marshal messages.
-	// If it is nil, DefaultTextMarshaler is used.
-	Marshaler *proto.TextMarshaler
+// DefaultTextUnmarshaler is the text marshaler used by TextCodec if none is
+// provided.
+var DefaultTextUnmarshaler = prototext.UnmarshalOptions{
+	DiscardUnknown: true,
 }
 
-// BasicMediaType returns the type and subtype portion of the media-type used to
-// identify data encoded by this codec.
-func (c *TextCodec) BasicMediaType() string {
-	return "text/vnd.google.protobuf"
-}
-
-// Marshal returns the binary representation of v.
-func (c *TextCodec) Marshal(v interface{}) ([]byte, error) {
-	m, err := cast(v)
-	if err != nil {
-		return nil, err
-	}
-
-	tm := c.Marshaler
-	if tm == nil {
-		tm = DefaultTextMarshaler
-	}
-
-	buf := &bytes.Buffer{}
-	err = tm.Marshal(buf, m)
-	return buf.Bytes(), err
-}
-
-// Unmarshal decodes a binary representation into v.
-func (c *TextCodec) Unmarshal(data []byte, v interface{}) error {
-	m, err := cast(v)
-	if err != nil {
-		return err
-	}
-
-	return proto.UnmarshalText(
-		string(data),
-		m,
-	)
+// DefaultTextCodec is a marshalkit.Codec that marshals protocol buffers
+// messages in text format.
+var DefaultTextCodec = Codec{
+	MediaType:   TextBasicMediaType,
+	Marshaler:   DefaultTextMarshaler,
+	Unmarshaler: DefaultTextUnmarshaler,
 }

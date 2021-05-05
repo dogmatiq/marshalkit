@@ -1,37 +1,21 @@
 package protobuf
 
 import (
-	"github.com/golang/protobuf/proto"
+	"google.golang.org/protobuf/proto"
 )
 
-// NativeCodec is an implementation of marshalkit.Codec that marshals protocol
-// buffers messages in the native binary format.
-type NativeCodec struct {
-	commonCodec
-}
+// NativeBasicMediaType is the type and subtype portion of the media-type used
+// to identify data encoded using the native protocol buffers wire format.
+const NativeBasicMediaType = "application/vnd.google.protobuf"
 
-// BasicMediaType returns the type and subtype portion of the media-type used to
-// identify data encoded by this codec.
-func (c *NativeCodec) BasicMediaType() string {
-	return "application/vnd.google.protobuf"
-}
+// DefaultNativeMarshaler is the text marshaler used by JSONCodec if none is
+// provided.
+var DefaultNativeMarshaler = proto.MarshalOptions{}
 
-// Marshal returns the binary representation of v.
-func (c *NativeCodec) Marshal(v interface{}) ([]byte, error) {
-	m, err := cast(v)
-	if err != nil {
-		return nil, err
-	}
+// DefaultNativeUnmarshaler is the text marshaler used by JSONCodec if none is
+// provided.
+var DefaultNativeUnmarshaler = proto.UnmarshalOptions{}
 
-	return proto.Marshal(m)
-}
-
-// Unmarshal decodes a binary representation into v.
-func (c *NativeCodec) Unmarshal(data []byte, v interface{}) error {
-	m, err := cast(v)
-	if err != nil {
-		return err
-	}
-
-	return proto.Unmarshal(data, m)
-}
+// DefaultNativeCodec is a marshalkit.Codec that marshals protocol buffers
+// messages using the native protocol buffers wire format.
+var DefaultNativeCodec = Codec{}

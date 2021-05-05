@@ -9,11 +9,11 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("type TextCodec", func() {
-	var codec *TextCodec
+var _ = Describe("type TextCodec (configured for text format)", func() {
+	var codec Codec
 
 	BeforeEach(func() {
-		codec = &TextCodec{}
+		codec = DefaultTextCodec
 	})
 
 	Describe("func BasicMediaType()", func() {
