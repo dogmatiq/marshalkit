@@ -30,7 +30,12 @@ var _ = Describe("type TextCodec (configured for text format)", func() {
 				},
 			)
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(string(data)).To(Equal(`value: "<value>"` + "\n"))
+
+			// Note that we need to use a regex to match an arbitrary amount of
+			// whitespace in between the key and value as a result of the
+			// behavior described in
+			// https://github.com/golang/protobuf/issues/1121.
+			Expect(data).To(MatchRegexp(`value:\s+\"\<value\>\"\n`))
 		})
 
 		It("returns an error if the type is not a protocol buffers message", func() {
