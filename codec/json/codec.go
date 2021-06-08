@@ -11,6 +11,10 @@ import (
 // implementation.
 type Codec struct{}
 
+// DefaultCodec is a marshalkit.Codec that marshals messages using Go's standard
+// JSON implementation.
+var DefaulCodec = Codec{}
+
 // Query returns the capabilities of the codec for the given types.
 func (*Codec) Query(types []reflect.Type) codec.Capabilities {
 	caps := codec.Capabilities{
