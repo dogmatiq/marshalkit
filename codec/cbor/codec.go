@@ -14,7 +14,7 @@ type Codec struct{}
 var DefaultCodec = Codec{}
 
 // Query returns the capabilities of the codec for the given types.
-func (*Codec) Query(types []reflect.Type) codec.Capabilities {
+func (Codec) Query(types []reflect.Type) codec.Capabilities {
 	caps := codec.Capabilities{
 		Types: map[reflect.Type]string{},
 	}
@@ -30,17 +30,17 @@ func (*Codec) Query(types []reflect.Type) codec.Capabilities {
 
 // BasicMediaType returns the type and subtype portion of the media-type used to
 // identify data encoded by this codec.
-func (*Codec) BasicMediaType() string {
+func (Codec) BasicMediaType() string {
 	return "application/cbor"
 }
 
 // Marshal returns the binary representation of v.
-func (*Codec) Marshal(v interface{}) ([]byte, error) {
+func (Codec) Marshal(v interface{}) ([]byte, error) {
 	return cbor.Marshal(v)
 }
 
 // Unmarshal decodes a binary representation into v.
-func (*Codec) Unmarshal(data []byte, v interface{}) error {
+func (Codec) Unmarshal(data []byte, v interface{}) error {
 	return cbor.Unmarshal(data, v)
 }
 
