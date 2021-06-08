@@ -17,6 +17,13 @@ type Unmarshaler interface {
 	Unmarshal([]byte, proto.Message) error
 }
 
+// Codec is an implementation of marshalkit.Codec that encodes Protocol Buffers
+// messages.
+//
+// It supports three common protocol buffers formats, that is, the native binary
+// format, the JSON "mapping", and the text-based encoding scheme.
+//
+// See DefaultNativeCodec, DefaultJSONCodec and DefaultTextCodec, respectively.
 type Codec struct {
 	// MediaType is the type and subtype portion of the media-type used to
 	// identify data encoded by this codec. If it is empty, NativeMediaType is
