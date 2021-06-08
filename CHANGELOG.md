@@ -9,6 +9,16 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
+## [0.7.2] - 2021-06-09
+
+### Fixed
+
+- Fix mispelling of `json.DefaulCodec` and `cbor.DefaultCodec` (missing `t`)
+
+### Changed
+
+- Change `json.Codec` and `cbor.Codec` to use non-pointer receivers
+
 ## [0.7.1] - 2021-06-09
 
 ### Added
