@@ -11,7 +11,7 @@ import (
 type Codec struct{}
 
 // DefaultCodec is a marshalkit.Codec that marshals messages using CBOR encoding.
-var DefaulCodec = Codec{}
+var DefaultCodec = Codec{}
 
 // Query returns the capabilities of the codec for the given types.
 func (*Codec) Query(types []reflect.Type) codec.Capabilities {
