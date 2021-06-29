@@ -10,5 +10,5 @@ require (
 	github.com/jmalloc/gomegax v0.0.0-20200507221434-64fca4c0e03a
 	github.com/onsi/ginkgo v1.16.4
 	github.com/onsi/gomega v1.13.0
-	google.golang.org/protobuf v1.26.0
+	google.golang.org/protobuf v1.27.0
 )
