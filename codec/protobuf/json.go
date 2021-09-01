@@ -8,14 +8,12 @@ import (
 // identify data encoded using JSON.
 const JSONBasicMediaType = "application/vnd.google.protobuf+json"
 
-// DefaultJSONMarshaler is the text marshaler used by JSONCodec if none is
-// provided.
+// DefaultJSONMarshaler is the marshaler used by DefaultJSONCodec.
 var DefaultJSONMarshaler = protojson.MarshalOptions{
 	UseProtoNames: true,
 }
 
-// DefaultJSONUnmarshaler is the text marshaler used by JSONCodec if none is
-// provided.
+// DefaultJSONUnmarshaler is the unmarshaler used by DefaultJSONCodec.
 var DefaultJSONUnmarshaler = protojson.UnmarshalOptions{
 	DiscardUnknown: true,
 }

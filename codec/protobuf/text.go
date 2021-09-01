@@ -8,14 +8,12 @@ import (
 // identify data encoded in the protocol buffers text format.
 const TextBasicMediaType = "text/vnd.google.protobuf"
 
-// DefaultTextMarshaler is the text marshaler used by TextCodec if none is
-// provided.
+// DefaultTextMarshaler is the marshaler used by DefaultTextCodec.
 var DefaultTextMarshaler = prototext.MarshalOptions{
 	Multiline: true,
 }
 
-// DefaultTextUnmarshaler is the text marshaler used by TextCodec if none is
-// provided.
+// DefaultTextUnmarshaler is the unmarshaler used by DefaultTextCodec.
 var DefaultTextUnmarshaler = prototext.UnmarshalOptions{
 	DiscardUnknown: true,
 }

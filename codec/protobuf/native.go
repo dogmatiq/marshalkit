@@ -8,12 +8,12 @@ import (
 // to identify data encoded using the native protocol buffers wire format.
 const NativeBasicMediaType = "application/vnd.google.protobuf"
 
-// DefaultNativeMarshaler is the text marshaler used by JSONCodec if none is
-// provided.
+// DefaultNativeMarshaler is the marshaler used by DefaultNativeCodec, and by
+// Codec if no marshaler is provided.
 var DefaultNativeMarshaler = proto.MarshalOptions{}
 
-// DefaultNativeUnmarshaler is the text marshaler used by JSONCodec if none is
-// provided.
+// DefaultNativeUnmarshaler is the unmarshaler used by DefaultNativeCodec, and
+// by Codec if no unmarshaler is provided.
 var DefaultNativeUnmarshaler = proto.UnmarshalOptions{}
 
 // DefaultNativeCodec is a marshalkit.Codec that marshals protocol buffers
