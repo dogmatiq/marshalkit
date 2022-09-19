@@ -5,7 +5,7 @@ go 1.16
 require (
 	github.com/dogmatiq/configkit v0.11.1
 	github.com/dogmatiq/dogma v0.11.1
-	github.com/dogmatiq/interopspec v0.5.1
+	github.com/dogmatiq/interopspec v0.5.2
 	github.com/fxamacker/cbor/v2 v2.4.0
 	github.com/jmalloc/gomegax v0.0.0-20200507221434-64fca4c0e03a
 	github.com/onsi/ginkgo v1.16.5
