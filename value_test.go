@@ -4,7 +4,7 @@ import (
 	. "github.com/dogmatiq/dogma/fixtures"
 	. "github.com/dogmatiq/marshalkit"
 	"github.com/dogmatiq/marshalkit/fixtures" // can't dot-import due to conflicts
-	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
 

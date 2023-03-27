@@ -2,7 +2,7 @@ package marshalkit_test
 
 import (
 	. "github.com/dogmatiq/marshalkit"
-	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
 
