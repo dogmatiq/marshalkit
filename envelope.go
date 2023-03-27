@@ -1,6 +1,8 @@
 package marshalkit
 
 import (
+	"fmt"
+	"reflect"
 	"time"
 
 	"github.com/dogmatiq/configkit"
@@ -28,7 +30,8 @@ func MustMarshalMessageIntoEnvelope(
 	env.Data = p.Data
 }
 
-// UnmarshalMessageFromEnvelope unmarshals a Dogma message from an envelopespec.Envelope
+// UnmarshalMessageFromEnvelope unmarshals a Dogma message from an
+// envelopespec.Envelope.
 func UnmarshalMessageFromEnvelope(
 	vm ValueMarshaler,
 	env *envelopespec.Envelope,
@@ -38,7 +41,20 @@ func UnmarshalMessageFromEnvelope(
 		Data:      env.Data,
 	}
 
-	return vm.Unmarshal(p)
+	v, err := vm.Unmarshal(p)
+	if err != nil {
+		return nil, err
+	}
+
+	m, ok := v.(dogma.Message)
+	if !ok {
+		return nil, fmt.Errorf(
+			"'%s' is not a message",
+			reflect.TypeOf(v),
+		)
+	}
+
+	return m, nil
 }
 
 // MustMarshalEnvelopeIdentity marshals id to its protocol buffers

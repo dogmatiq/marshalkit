@@ -6,8 +6,15 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Semantic Versioning].
 
 <!-- references -->
-[Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
-[Semantic Versioning]: https://semver.org/spec/v2.0.0.html
+
+[keep a changelog]: https://keepachangelog.com/en/1.0.0/
+[semantic versioning]: https://semver.org/spec/v2.0.0.html
+
+## [0.7.3] - 2023-03-27
+
+### Fixed
+
+- Don't assume `dogma.Message` will always be equivalent to `any`
 
 ## [0.7.2] - 2021-06-09
 
@@ -119,7 +126,8 @@ different marshalers/unmarshalers provided by `google.golang.org/protobuf`.
 - Initial release
 
 <!-- references -->
-[Unreleased]: https://github.com/dogmatiq/marshalkit
+
+[unreleased]: https://github.com/dogmatiq/marshalkit
 [0.1.0]: https://github.com/dogmatiq/marshalkit/releases/tag/v0.1.0
 [0.2.0]: https://github.com/dogmatiq/marshalkit/releases/tag/v0.2.0
 [0.2.1]: https://github.com/dogmatiq/marshalkit/releases/tag/v0.2.1
@@ -129,6 +137,7 @@ different marshalers/unmarshalers provided by `google.golang.org/protobuf`.
 [0.6.0]: https://github.com/dogmatiq/marshalkit/releases/tag/v0.6.0
 [0.7.0]: https://github.com/dogmatiq/marshalkit/releases/tag/v0.7.0
 [0.7.1]: https://github.com/dogmatiq/marshalkit/releases/tag/v0.7.1
+[0.7.3]: https://github.com/dogmatiq/marshalkit/releases/tag/v0.7.3
 
 <!-- version template
 ## [0.0.1] - YYYY-MM-DD
