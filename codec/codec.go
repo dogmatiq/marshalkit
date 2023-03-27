@@ -12,10 +12,10 @@ type Codec interface {
 	BasicMediaType() string
 
 	// Marshal returns the binary representation of v.
-	Marshal(v interface{}) ([]byte, error)
+	Marshal(v any) ([]byte, error)
 
 	// Unmarshal decodes a binary representation into v.
-	Unmarshal(data []byte, v interface{}) error
+	Unmarshal(data []byte, v any) error
 }
 
 // Capabilities describes the capabilities of a codec as it relates to

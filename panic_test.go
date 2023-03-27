@@ -21,7 +21,7 @@ var _ = Describe("func Recover()", func() {
 	})
 
 	It("does not recover from unrelated panics", func() {
-		var value interface{}
+		var value any
 
 		func() {
 			defer func() {

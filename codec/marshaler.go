@@ -124,7 +124,7 @@ func (m *Marshaler) UnmarshalType(n string) (reflect.Type, error) {
 }
 
 // Marshal returns a binary representation of v.
-func (m *Marshaler) Marshal(v interface{}) (marshalkit.Packet, error) {
+func (m *Marshaler) Marshal(v any) (marshalkit.Packet, error) {
 	rt := reflect.TypeOf(v)
 
 	if bt, ok := m.types[rt]; ok {
@@ -152,7 +152,7 @@ func (m *Marshaler) Marshal(v interface{}) (marshalkit.Packet, error) {
 // mediaTypes is a list of acceptible media-types, in order of preference.
 // If none of the media-types are supported, ok is false.
 func (m *Marshaler) MarshalAs(
-	v interface{},
+	v any,
 	mediaTypes []string,
 ) (p marshalkit.Packet, ok bool, err error) {
 	if len(mediaTypes) == 0 {
@@ -185,7 +185,7 @@ func (m *Marshaler) MarshalAs(
 }
 
 // Unmarshal produces a value from its binary representation.
-func (m *Marshaler) Unmarshal(p marshalkit.Packet) (interface{}, error) {
+func (m *Marshaler) Unmarshal(p marshalkit.Packet) (any, error) {
 	c, rt, err := m.unpackMediaType(p)
 	if err != nil {
 		return nil, err

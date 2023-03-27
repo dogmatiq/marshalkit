@@ -69,7 +69,7 @@ func (c Codec) BasicMediaType() string {
 }
 
 // Marshal returns the binary representation of v.
-func (c Codec) Marshal(v interface{}) ([]byte, error) {
+func (c Codec) Marshal(v any) ([]byte, error) {
 	m, err := cast(v)
 	if err != nil {
 		return nil, err
@@ -84,7 +84,7 @@ func (c Codec) Marshal(v interface{}) ([]byte, error) {
 }
 
 // Unmarshal decodes a binary representation into v.
-func (c Codec) Unmarshal(data []byte, v interface{}) error {
+func (c Codec) Unmarshal(data []byte, v any) error {
 	m, err := cast(v)
 	if err != nil {
 		return err

@@ -35,12 +35,12 @@ func (Codec) BasicMediaType() string {
 }
 
 // Marshal returns the binary representation of v.
-func (Codec) Marshal(v interface{}) ([]byte, error) {
+func (Codec) Marshal(v any) ([]byte, error) {
 	return cbor.Marshal(v)
 }
 
 // Unmarshal decodes a binary representation into v.
-func (Codec) Unmarshal(data []byte, v interface{}) error {
+func (Codec) Unmarshal(data []byte, v any) error {
 	return cbor.Unmarshal(data, v)
 }
 

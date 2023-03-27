@@ -9,7 +9,7 @@ import (
 
 // cast performs a type assertion on v to verify it is a protocol buffers
 // message, otherwise it returns a meaningful error.
-func cast(v interface{}) (proto.Message, error) {
+func cast(v any) (proto.Message, error) {
 	if m, ok := v.(proto.Message); ok {
 		return m, nil
 	}
