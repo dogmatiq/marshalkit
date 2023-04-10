@@ -3,8 +3,8 @@ module github.com/dogmatiq/marshalkit
 go 1.19
 
 require (
-	github.com/dogmatiq/configkit v0.11.1
-	github.com/dogmatiq/dogma v0.11.1
+	github.com/dogmatiq/configkit v0.12.0
+	github.com/dogmatiq/dogma v0.12.0
 	github.com/dogmatiq/interopspec v0.5.2
 	github.com/fxamacker/cbor/v2 v2.4.0
 	github.com/jmalloc/gomegax v0.0.0-20200507221434-64fca4c0e03a
@@ -19,10 +19,11 @@ require (
 	github.com/go-task/slim-sprig v0.0.0-20230315185526-52ccab3ef572 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/google/pprof v0.0.0-20210407192527-94a9f03dee38 // indirect
+	github.com/google/uuid v1.3.0 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
-	golang.org/x/net v0.8.0 // indirect
-	golang.org/x/sys v0.6.0 // indirect
-	golang.org/x/text v0.8.0 // indirect
-	golang.org/x/tools v0.7.0 // indirect
+	golang.org/x/net v0.9.0 // indirect
+	golang.org/x/sys v0.7.0 // indirect
+	golang.org/x/text v0.9.0 // indirect
+	golang.org/x/tools v0.8.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
