@@ -49,13 +49,13 @@ var _ = Describe("func UnmarshalMessageFromEnvelope()", func() {
 
 var _ = Describe("func MustMarshalEnvelopeIdentity()", func() {
 	It("returns the protocol buffers identity", func() {
-		in := configkit.MustNewIdentity("<name>", "<key>")
+		in := configkit.MustNewIdentity("<name>", "81ff36f1-96ba-401a-8291-024a725cf60c")
 
 		out := MustMarshalEnvelopeIdentity(in)
 		Expect(out).To(EqualX(
 			&Identity{
 				Name: "<name>",
-				Key:  "<key>",
+				Key:  "81ff36f1-96ba-401a-8291-024a725cf60c",
 			},
 		))
 	})
@@ -65,13 +65,13 @@ var _ = Describe("func UnmarshalEnvelopeIdentity()", func() {
 	It("returns the configkit identity", func() {
 		in := &Identity{
 			Name: "<name>",
-			Key:  "<key>",
+			Key:  "ed555abf-d9fd-45e5-9725-542e47a61667",
 		}
 
 		out, err := UnmarshalEnvelopeIdentity(in)
 		Expect(err).ShouldNot(HaveOccurred())
 		Expect(out).To(Equal(
-			configkit.MustNewIdentity("<name>", "<key>"),
+			configkit.MustNewIdentity("<name>", "ed555abf-d9fd-45e5-9725-542e47a61667"),
 		))
 	})
 })
