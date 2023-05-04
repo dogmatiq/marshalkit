@@ -3,7 +3,7 @@ module github.com/dogmatiq/marshalkit
 go 1.19
 
 require (
-	github.com/dogmatiq/configkit v0.12.0
+	github.com/dogmatiq/configkit v0.12.1
 	github.com/dogmatiq/dogma v0.12.0
 	github.com/dogmatiq/interopspec v0.5.2
 	github.com/fxamacker/cbor/v2 v2.4.0
