@@ -8,7 +8,7 @@ require (
 	github.com/dogmatiq/interopspec v0.5.3
 	github.com/fxamacker/cbor/v2 v2.6.0
 	github.com/jmalloc/gomegax v0.0.0-20200507221434-64fca4c0e03a
-	github.com/onsi/ginkgo/v2 v2.18.0
+	github.com/onsi/ginkgo/v2 v2.19.0
 	github.com/onsi/gomega v1.33.1
 	google.golang.org/protobuf v1.34.1
 )
