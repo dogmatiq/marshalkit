@@ -11,7 +11,7 @@ import (
 // implementation.
 type Codec struct{}
 
-// DefaultCodec is a marshalkit.Codec that marshals messages using Go's standard
+// DefaultCodec is a marshalkit.Codec that marshals values using Go's standard
 // JSON implementation.
 var DefaultCodec = Codec{}
 

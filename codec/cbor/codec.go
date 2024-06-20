@@ -10,7 +10,7 @@ import (
 // Codec is an implementation of marshalkit.Codec that uses CBOR encoding.
 type Codec struct{}
 
-// DefaultCodec is a marshalkit.Codec that marshals messages using CBOR encoding.
+// DefaultCodec is a marshalkit.Codec that marshals values using CBOR encoding.
 var DefaultCodec = Codec{}
 
 // Query returns the capabilities of the codec for the given types.
