@@ -7,6 +7,7 @@ import (
 	"github.com/dogmatiq/marshalkit"
 	. "github.com/dogmatiq/marshalkit/codec"
 	. "github.com/dogmatiq/marshalkit/codec/internal/fixtures"
+	"github.com/dogmatiq/marshalkit/codec/internal/fixtures/conflicting"
 	"github.com/dogmatiq/marshalkit/codec/json"
 	"github.com/dogmatiq/marshalkit/codec/protobuf"
 	. "github.com/jmalloc/gomegax"
@@ -52,7 +53,32 @@ var _ = Describe("type Marshaler", func() {
 			))
 		})
 
-		It("returns an error if there conflicting portable type names", func() {
+		It("excludes types with conflicting portable type names", func() {
+			marshaler, err := NewMarshaler(
+				[]reflect.Type{
+					reflect.TypeOf(&ProtoMessage{}),
+					reflect.TypeOf(&conflicting.ProtoMessage{}),
+				},
+				[]Codec{
+					&json.Codec{},
+					&protobuf.DefaultNativeCodec,
+				},
+			)
+			Expect(err).ShouldNot(HaveOccurred())
+
+			p, err := marshaler.Marshal(
+				&ProtoMessage{
+					Value: "<value>",
+				},
+			)
+			Expect(err).ShouldNot(HaveOccurred())
+
+			// We expect the protocol buffers codec to be selected, because the
+			// names of the type messages conflict under the JSON codec.
+			Expect(p.MediaType).To(Equal("application/vnd.google.protobuf; type=dogmatiq.marshalkit.fixtures.ProtoMessage"))
+		})
+
+		It("returns an error if types with conflicting portable type names are excluded by all codecs", func() {
 			_, err := NewMarshaler(
 				[]reflect.Type{
 					reflect.TypeOf(MessageA{}),
@@ -64,10 +90,10 @@ var _ = Describe("type Marshaler", func() {
 			)
 			Expect(err).To(Or(
 				MatchError(
-					"the type name 'MessageA' is used by both 'fixtures.MessageA' and '*fixtures.MessageA'",
+					"naming conflicts occurred within all of the codecs that support the 'fixtures.MessageA' type",
 				),
 				MatchError(
-					"the type name 'MessageA' is used by both '*fixtures.MessageA' and 'fixtures.MessageA'",
+					"naming conflicts occurred within all of the codecs that support the '*fixtures.MessageA' type",
 				),
 			))
 		})

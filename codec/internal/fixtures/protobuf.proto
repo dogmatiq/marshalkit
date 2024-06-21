@@ -4,7 +4,5 @@ package dogmatiq.marshalkit.fixtures;
 
 option go_package = "github.com/dogmatiq/marshalkit/codec/internal/fixtures";
 
-// ProtoMessage is a Dogma message implemented as a Protocol Buffers message.
-message ProtoMessage {
-    string value = 1;
-}
+// ProtoMessage is a generic protocol buffers message.
+message ProtoMessage { string value = 1; }

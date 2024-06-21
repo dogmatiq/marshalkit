@@ -18,6 +18,13 @@ The format is based on [Keep a Changelog], and this project adheres to
   `dogma.StatelessProcessRoot` values without assuming that any other codec is
   available.
 
+### Changed
+
+- `codec.NewMarshaler()` no longer returns an error when two (or more) types
+  have a conflicting portable name so long as at least one codec has a unique
+  portable name for that type. Any single codec that produces the same portable
+  name for multiple types is not used for those types.
+
 ## [0.7.3] - 2023-03-27
 
 ### Fixed

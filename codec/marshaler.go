@@ -38,18 +38,46 @@ func NewMarshaler(
 		typeByPortableName:    map[string]reflect.Type{},
 	}
 
-	// build a list of all of the "unsupported" types
-	unsupported := map[reflect.Type]struct{}{}
+	// Build a list of all types that have not yet been assigned to at least one
+	// codec.
+	unassigned := map[reflect.Type]struct{}{}
 	for _, rt := range types {
-		unsupported[rt] = struct{}{}
+		unassigned[rt] = struct{}{}
 	}
 
-	// scan the codecs in order of preference
-	for _, c := range codecs {
-		caps := c.Query(types)
+	// Maintain a list of types that have conflicting portable names with other
+	// types within a single codec.
+	conflicts := map[reflect.Type]struct{}{}
 
-		if len(caps.Types) > 0 {
-			for rt, n := range caps.Types {
+	// Scan the codecs in order of preference.
+	for _, c := range codecs {
+		if _, ok := m.codecByBasicMediaType[c.BasicMediaType()]; ok {
+			return nil, fmt.Errorf(
+				"multiple codecs use the '%s' media-type",
+				c.BasicMediaType(),
+			)
+		}
+		m.codecByBasicMediaType[c.BasicMediaType()] = c
+
+		typesByName := map[string][]reflect.Type{}
+		for rt, n := range c.Query(types).Types {
+			typesByName[n] = append(typesByName[n], rt)
+		}
+
+		for n, types := range typesByName {
+			for _, rt := range types {
+				if len(types) > 1 {
+					// Ignore any types with portable names that conflict WITHIN
+					// this codec. This keeps the algorithm deterministic
+					// without having to "rank" types. The expectation is that
+					// the types will have non-conflicting names under some
+					// other codec.
+					conflicts[rt] = struct{}{}
+					continue
+				}
+
+				// Any portable names that conflict with other types ACROSS
+				// codecs result in an error.
 				if x, ok := m.typeByPortableName[n]; ok && x != rt {
 					return nil, fmt.Errorf(
 						"the type name '%s' is used by both '%s' and '%s'",
@@ -75,25 +103,16 @@ func NewMarshaler(
 
 				m.types[rt] = bt
 
-				delete(unsupported, rt)
+				delete(unassigned, rt)
 			}
-
-			if _, ok := m.codecByBasicMediaType[c.BasicMediaType()]; ok {
-				return nil, fmt.Errorf(
-					"multiple codecs use the '%s' media-type",
-					c.BasicMediaType(),
-				)
-			}
-
-			m.codecByBasicMediaType[c.BasicMediaType()] = c
 		}
 	}
 
-	for rt := range unsupported {
-		return nil, fmt.Errorf(
-			"no codecs support the '%s' type",
-			rt,
-		)
+	for rt := range unassigned {
+		if _, ok := conflicts[rt]; ok {
+			return nil, fmt.Errorf("naming conflicts occurred within all of the codecs that support the '%s' type", rt)
+		}
+		return nil, fmt.Errorf("no codecs support the '%s' type", rt)
 	}
 
 	return m, nil

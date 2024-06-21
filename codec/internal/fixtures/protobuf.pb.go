@@ -20,7 +20,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// ProtoMessage is a Dogma message implemented as a Protocol Buffers message.
+// ProtoMessage is a generic protocol buffers message.
 type ProtoMessage struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

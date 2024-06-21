@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package dogmatiq.marshalkit.fixtures.conflicting;
+
+option go_package = "github.com/dogmatiq/marshalkit/codec/internal/fixtures/conflicting";
+
+// ProtoMessage is a protocol buffers message with the same name as
+// [fixtures.ProtoMessage] but a different protocol buffers package name.
+message ProtoMessage { string value = 1; }
