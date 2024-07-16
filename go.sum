@@ -6,8 +6,8 @@ github.com/dogmatiq/dogma v0.13.0 h1:MKk9MHErGKD53Y+43I4fcoPZMQjX0N2DUZEc4rLp+Hk
 github.com/dogmatiq/dogma v0.13.0/go.mod h1:9lyVA+6V2+E/exV0IrBOrkUiyFwIATEhv+b0vnB2umQ=
 github.com/dogmatiq/iago v0.4.0 h1:57nZqVT34IZxtCZEW/RFif7DNUEjMXgevfr/Mmd0N8I=
 github.com/dogmatiq/iago v0.4.0/go.mod h1:fishMWBtzYcjgis6d873VTv9kFm/wHYLOzOyO9ECBDc=
-github.com/dogmatiq/interopspec v0.5.3 h1:AES184nLWcek8/vafykZJLmm59NlRiYiC40Tll8hEeg=
-github.com/dogmatiq/interopspec v0.5.3/go.mod h1:3RdRwvDzgqLwemSieP+YAvKp3CMP0rYwZFl5tpmn6DI=
+github.com/dogmatiq/interopspec v0.5.4 h1:klyGPy16zUKJartJIJOBZ4JrQ4LxFiY3wgzFTTiNlDk=
+github.com/dogmatiq/interopspec v0.5.4/go.mod h1:JL0QFXBTRGH+RgQqExhEUdhtv5Vn802w43RxKQbk8Co=
 github.com/fsnotify/fsnotify v1.4.7/go.mod h1:jwhsz4b93w/PPRr/qN1Yymfu8t87LnFCMoQvtojpjFo=
 github.com/fsnotify/fsnotify v1.4.9 h1:hsms1Qyu0jgnwNXIxa+/V/PDsU6CfLf6CNO8H7IWoS4=
 github.com/fsnotify/fsnotify v1.4.9/go.mod h1:znqG4EE+3YCdAaPaxE2ZRY/06pZUdp0tY4IgpuI1SZQ=
