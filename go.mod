@@ -9,7 +9,7 @@ require (
 	github.com/fxamacker/cbor/v2 v2.7.0
 	github.com/jmalloc/gomegax v0.0.0-20200507221434-64fca4c0e03a
 	github.com/onsi/ginkgo/v2 v2.19.0
-	github.com/onsi/gomega v1.33.1
+	github.com/onsi/gomega v1.34.0
 	google.golang.org/protobuf v1.34.2
 )
 
