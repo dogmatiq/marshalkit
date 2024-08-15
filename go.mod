@@ -3,7 +3,7 @@ module github.com/dogmatiq/marshalkit
 go 1.21
 
 require (
-	github.com/dogmatiq/configkit v0.13.2
+	github.com/dogmatiq/configkit v0.13.3
 	github.com/dogmatiq/dogma v0.13.1
 	github.com/dogmatiq/interopspec v0.5.4
 	github.com/fxamacker/cbor/v2 v2.7.0
@@ -26,5 +26,7 @@ require (
 	golang.org/x/sys v0.23.0 // indirect
 	golang.org/x/text v0.17.0 // indirect
 	golang.org/x/tools v0.24.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240528184218-531527333157 // indirect
+	google.golang.org/grpc v1.65.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
