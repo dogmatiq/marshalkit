@@ -1,11 +1,12 @@
 module github.com/dogmatiq/marshalkit
 
-go 1.21
+go 1.22
+
 toolchain go1.22.5
 
 require (
 	github.com/dogmatiq/configkit v0.13.4
-	github.com/dogmatiq/dogma v0.13.1
+	github.com/dogmatiq/dogma v0.14.0
 	github.com/dogmatiq/interopspec v0.5.4
 	github.com/fxamacker/cbor/v2 v2.7.0
 	github.com/jmalloc/gomegax v0.0.0-20200507221434-64fca4c0e03a

@@ -10,7 +10,11 @@ import (
 	"github.com/dogmatiq/interopspec/envelopespec"
 )
 
-// MustMarshalMessageIntoEnvelope marshals a Dogma message into an envelopespec.Envelope.
+// MustMarshalMessageIntoEnvelope marshals a Dogma message into an
+// [envelopespec.Envelope].
+//
+// Deprecated: Use [MustMarshalCommandIntoEnvelope],
+// [MustMarshalEventIntoEnvelope], or [MustMarshalTimeoutIntoEnvelope] instead.
 func MustMarshalMessageIntoEnvelope(
 	vm ValueMarshaler,
 	m dogma.Message,
@@ -30,8 +34,41 @@ func MustMarshalMessageIntoEnvelope(
 	env.Data = p.Data
 }
 
+// MustMarshalCommandIntoEnvelope marshals a [dogma.Command] into an
+// [envelopespec.Envelope].
+func MustMarshalCommandIntoEnvelope(
+	vm ValueMarshaler,
+	m dogma.Command,
+	env *envelopespec.Envelope,
+) {
+	MustMarshalMessageIntoEnvelope(vm, m, env)
+}
+
+// MustMarshalEventIntoEnvelope marshals a [dogma.Event] into an
+// [envelopespec.Envelope].
+func MustMarshalEventIntoEnvelope(
+	vm ValueMarshaler,
+	m dogma.Event,
+	env *envelopespec.Envelope,
+) {
+	MustMarshalMessageIntoEnvelope(vm, m, env)
+}
+
+// MustMarshalTimeoutIntoEnvelope marshals a [dogma.Timeout] into an
+// [envelopespec.Envelope].
+func MustMarshalTimeoutIntoEnvelope(
+	vm ValueMarshaler,
+	m dogma.Timeout,
+	env *envelopespec.Envelope,
+) {
+	MustMarshalMessageIntoEnvelope(vm, m, env)
+}
+
 // UnmarshalMessageFromEnvelope unmarshals a Dogma message from an
-// envelopespec.Envelope.
+// [envelopespec.Envelope].
+//
+// Deprecated: Use [UnmarshalCommandFromEnvelope], [UnmarshalEventFromEnvelope],
+// or [UnmarshalTimeoutFromEnvelope] instead.
 func UnmarshalMessageFromEnvelope(
 	vm ValueMarshaler,
 	env *envelopespec.Envelope,
@@ -55,6 +92,33 @@ func UnmarshalMessageFromEnvelope(
 	}
 
 	return m, nil
+}
+
+// UnmarshalCommandFromEnvelope unmarshals a [dogma.Command] from an
+// [envelopespec.Envelope].
+func UnmarshalCommandFromEnvelope(
+	vm ValueMarshaler,
+	env *envelopespec.Envelope,
+) (dogma.Command, error) {
+	return UnmarshalMessageFromEnvelope(vm, env)
+}
+
+// UnmarshalEventFromEnvelope unmarshals a [dogma.Event] from an
+// [envelopespec.Envelope].
+func UnmarshalEventFromEnvelope(
+	vm ValueMarshaler,
+	env *envelopespec.Envelope,
+) (dogma.Event, error) {
+	return UnmarshalMessageFromEnvelope(vm, env)
+}
+
+// UnmarshalTimeoutFromEnvelope unmarshals a [dogma.Timeout] from an
+// [envelopespec.Envelope].
+func UnmarshalTimeoutFromEnvelope(
+	vm ValueMarshaler,
+	env *envelopespec.Envelope,
+) (dogma.Timeout, error) {
+	return UnmarshalMessageFromEnvelope(vm, env)
 }
 
 // MustMarshalEnvelopeIdentity marshals id to its protocol buffers

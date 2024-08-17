@@ -33,6 +33,66 @@ var _ = Describe("func MustMarshalMessageIntoEnvelope()", func() {
 	})
 })
 
+var _ = Describe("func MustMarshalCommandIntoEnvelope()", func() {
+	It("marshals the message into the envelope", func() {
+		var env Envelope
+
+		MustMarshalCommandIntoEnvelope(
+			fixtures.Marshaler,
+			MessageC1,
+			&env,
+		)
+
+		Expect(&env).To(EqualX(
+			&Envelope{
+				PortableName: fixtures.MessageCPortableName,
+				MediaType:    fixtures.MessageC1Packet.MediaType,
+				Data:         fixtures.MessageC1Packet.Data,
+			},
+		))
+	})
+})
+
+var _ = Describe("func MustMarshalEventIntoEnvelope()", func() {
+	It("marshals the message into the envelope", func() {
+		var env Envelope
+
+		MustMarshalEventIntoEnvelope(
+			fixtures.Marshaler,
+			MessageE1,
+			&env,
+		)
+
+		Expect(&env).To(EqualX(
+			&Envelope{
+				PortableName: fixtures.MessageEPortableName,
+				MediaType:    fixtures.MessageE1Packet.MediaType,
+				Data:         fixtures.MessageE1Packet.Data,
+			},
+		))
+	})
+})
+
+var _ = Describe("func MustMarshalTimeoutIntoEnvelope()", func() {
+	It("marshals the message into the envelope", func() {
+		var env Envelope
+
+		MustMarshalTimeoutIntoEnvelope(
+			fixtures.Marshaler,
+			MessageT1,
+			&env,
+		)
+
+		Expect(&env).To(EqualX(
+			&Envelope{
+				PortableName: fixtures.MessageTPortableName,
+				MediaType:    fixtures.MessageT1Packet.MediaType,
+				Data:         fixtures.MessageT1Packet.Data,
+			},
+		))
+	})
+})
+
 var _ = Describe("func UnmarshalMessageFromEnvelope()", func() {
 	It("unmarshals the message from the envelope", func() {
 		env := &Envelope{
@@ -44,6 +104,48 @@ var _ = Describe("func UnmarshalMessageFromEnvelope()", func() {
 		m, err := UnmarshalMessageFromEnvelope(fixtures.Marshaler, env)
 		Expect(err).ShouldNot(HaveOccurred())
 		Expect(m).To(Equal(MessageA1))
+	})
+})
+
+var _ = Describe("func UnmarshalCommandFromEnvelope()", func() {
+	It("unmarshals the message from the envelope", func() {
+		env := &Envelope{
+			PortableName: fixtures.MessageCPortableName,
+			MediaType:    fixtures.MessageC1Packet.MediaType,
+			Data:         fixtures.MessageC1Packet.Data,
+		}
+
+		m, err := UnmarshalCommandFromEnvelope(fixtures.Marshaler, env)
+		Expect(err).ShouldNot(HaveOccurred())
+		Expect(m).To(Equal(MessageC1))
+	})
+})
+
+var _ = Describe("func UnmarshalEventFromEnvelope()", func() {
+	It("unmarshals the message from the envelope", func() {
+		env := &Envelope{
+			PortableName: fixtures.MessageEPortableName,
+			MediaType:    fixtures.MessageE1Packet.MediaType,
+			Data:         fixtures.MessageE1Packet.Data,
+		}
+
+		m, err := UnmarshalEventFromEnvelope(fixtures.Marshaler, env)
+		Expect(err).ShouldNot(HaveOccurred())
+		Expect(m).To(Equal(MessageE1))
+	})
+})
+
+var _ = Describe("func UnmarshalTimeoutFromEnvelope()", func() {
+	It("unmarshals the message from the envelope", func() {
+		env := &Envelope{
+			PortableName: fixtures.MessageTPortableName,
+			MediaType:    fixtures.MessageT1Packet.MediaType,
+			Data:         fixtures.MessageT1Packet.Data,
+		}
+
+		m, err := UnmarshalTimeoutFromEnvelope(fixtures.Marshaler, env)
+		Expect(err).ShouldNot(HaveOccurred())
+		Expect(m).To(Equal(MessageT1))
 	})
 })
 
