@@ -10,7 +10,7 @@ require (
 	github.com/dogmatiq/interopspec v0.5.4
 	github.com/fxamacker/cbor/v2 v2.7.0
 	github.com/jmalloc/gomegax v0.0.0-20200507221434-64fca4c0e03a
-	github.com/onsi/ginkgo/v2 v2.20.0
+	github.com/onsi/ginkgo/v2 v2.20.1
 	github.com/onsi/gomega v1.34.1
 	google.golang.org/protobuf v1.34.2
 )
