@@ -5,7 +5,7 @@ go 1.22
 toolchain go1.22.5
 
 require (
-	github.com/dogmatiq/configkit v0.13.6
+	github.com/dogmatiq/configkit v0.13.8
 	github.com/dogmatiq/dogma v0.14.2
 	github.com/dogmatiq/interopspec v0.5.4
 	github.com/fxamacker/cbor/v2 v2.7.0
