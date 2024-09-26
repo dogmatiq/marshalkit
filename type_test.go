@@ -3,7 +3,7 @@ package marshalkit_test
 import (
 	"reflect"
 
-	. "github.com/dogmatiq/dogma/fixtures"
+	. "github.com/dogmatiq/enginekit/enginetest/stubs"
 	. "github.com/dogmatiq/marshalkit"
 	"github.com/dogmatiq/marshalkit/fixtures" // can't dot-import due to conflicts
 	. "github.com/onsi/ginkgo/v2"
@@ -14,9 +14,9 @@ var _ = Describe("func MustMarshalType()", func() {
 	It("marshals the type using the marshaler", func() {
 		n := MustMarshalType(
 			fixtures.Marshaler,
-			reflect.TypeOf(&AggregateRoot{}),
+			reflect.TypeOf(&AggregateRootStub{}),
 		)
-		Expect(n).To(Equal("AggregateRoot"))
+		Expect(n).To(Equal("AggregateRootStub"))
 	})
 
 	It("panics if the type is not registered", func() {
@@ -33,10 +33,10 @@ var _ = Describe("func MustUnmarshalType()", func() {
 	It("unmarshals the type using the marshaler", func() {
 		rt := MustUnmarshalType(
 			fixtures.Marshaler,
-			"AggregateRoot",
+			"AggregateRootStub",
 		)
 		Expect(rt).To(Equal(
-			reflect.TypeOf(&AggregateRoot{}),
+			reflect.TypeOf(&AggregateRootStub{}),
 		))
 	})
 

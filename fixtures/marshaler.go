@@ -7,7 +7,6 @@ import (
 	"github.com/dogmatiq/enginekit/enginetest/stubs"
 	"github.com/dogmatiq/marshalkit"
 	"github.com/dogmatiq/marshalkit/codec"
-	"github.com/dogmatiq/marshalkit/codec/cbor"
 	"github.com/dogmatiq/marshalkit/codec/json"
 )
 
@@ -134,7 +133,6 @@ func init() {
 		},
 		[]codec.Codec{
 			&json.Codec{},
-			&cbor.Codec{},
 		},
 	)
 	if err != nil {

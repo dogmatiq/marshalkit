@@ -12,6 +12,12 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## [Unreleased]
 
+### Removed
+
+- **[BC]** Removed support for CBOR encoding. Application developers should
+  prefer Protocol Buffers where possible. JSON support remains for encoding of
+  "arbitrary" types.
+
 ### Deprecated
 
 - The `fixtures` package is now deprecated and will be removed in a future
@@ -60,7 +66,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Fixed
 
-- Fix mispelling of `json.DefaulCodec` and `cbor.DefaultCodec` (missing `t`)
+- Fix mispelling of `json.DefaultCodec` and `cbor.DefaultCodec` (missing `t`)
 
 ### Changed
 

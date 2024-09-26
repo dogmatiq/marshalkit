@@ -1,7 +1,7 @@
 package marshalkit_test
 
 import (
-	. "github.com/dogmatiq/dogma/fixtures"
+	. "github.com/dogmatiq/enginekit/enginetest/stubs"
 	. "github.com/dogmatiq/marshalkit"
 	"github.com/dogmatiq/marshalkit/fixtures" // can't dot-import due to conflicts
 	. "github.com/onsi/ginkgo/v2"
@@ -12,12 +12,12 @@ var _ = Describe("func MustMarshal()", func() {
 	It("marshals the value using the marshaler", func() {
 		p := MustMarshal(
 			fixtures.Marshaler,
-			&ProcessRoot{
+			&ProcessRootStub{
 				Value: "<value>",
 			},
 		)
-		Expect(p.MediaType).To(Equal("application/json; type=ProcessRoot"))
-		Expect(p.Data).To(Equal([]byte(`{"Value":"\u003cvalue\u003e"}`)))
+		Expect(p.MediaType).To(Equal("application/json; type=ProcessRootStub"))
+		Expect(p.Data).To(Equal([]byte(`{"value":"\u003cvalue\u003e"}`)))
 	})
 
 	It("panics if the type is not registered", func() {
@@ -35,12 +35,12 @@ var _ = Describe("func MustUnmarshal()", func() {
 		v := MustUnmarshal(
 			fixtures.Marshaler,
 			Packet{
-				"application/json; type=ProcessRoot",
-				[]byte(`{"Value":"\u003cvalue\u003e"}`),
+				"application/json; type=ProcessRootStub",
+				[]byte(`{"value":"\u003cvalue\u003e"}`),
 			},
 		)
 		Expect(v).To(Equal(
-			&ProcessRoot{
+			&ProcessRootStub{
 				Value: "<value>",
 			},
 		))
@@ -52,7 +52,7 @@ var _ = Describe("func MustUnmarshal()", func() {
 				fixtures.Marshaler,
 				Packet{
 					"application/json; type=Unsupported",
-					[]byte(`{"Value":"\u003cvalue\u003e"}`),
+					[]byte(`{"value":"\u003cvalue\u003e"}`),
 				},
 			)
 		}).To(Panic())
