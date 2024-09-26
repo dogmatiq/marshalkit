@@ -10,6 +10,16 @@ The format is based on [Keep a Changelog], and this project adheres to
 [keep a changelog]: https://keepachangelog.com/en/1.0.0/
 [semantic versioning]: https://semver.org/spec/v2.0.0.html
 
+## [0.9.0] - 2024-09-27
+
+### Removed
+
+- **[BC]** The test marshaler in the `fixtures` package no longer supports the
+  messages that were defined in `dogma/fixtures` package, which was removed in
+  Dogma v0.14.3.
+- **[BC]** Removed all "canned" `Packet` and "portable name" values from the
+  `fixtures` package.
+
 ## [0.8.0] - 2024-09-27
 
 ### Removed
@@ -187,6 +197,7 @@ different marshalers/unmarshalers provided by `google.golang.org/protobuf`.
 [0.7.5]: https://github.com/dogmatiq/marshalkit/releases/tag/v0.7.5
 [0.7.6]: https://github.com/dogmatiq/marshalkit/releases/tag/v0.7.6
 [0.8.0]: https://github.com/dogmatiq/marshalkit/releases/tag/v0.8.0
+[0.9.0]: https://github.com/dogmatiq/marshalkit/releases/tag/v0.9.0
 
 <!-- version template
 ## [0.0.1] - YYYY-MM-DD
