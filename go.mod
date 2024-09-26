@@ -7,7 +7,7 @@ toolchain go1.23.1
 require (
 	github.com/dogmatiq/configkit v0.13.8
 	github.com/dogmatiq/dogma v0.14.2
-	github.com/dogmatiq/enginekit v0.11.0
+	github.com/dogmatiq/enginekit v0.11.1-0.20240926204809-4e45ae3e1a87
 	github.com/dogmatiq/interopspec v0.5.4
 	github.com/fxamacker/cbor/v2 v2.7.0
 	github.com/jmalloc/gomegax v0.0.0-20200507221434-64fca4c0e03a

@@ -3,7 +3,7 @@ package json_test
 import (
 	"reflect"
 
-	. "github.com/dogmatiq/dogma/fixtures"
+	. "github.com/dogmatiq/enginekit/enginetest/stubs"
 	. "github.com/dogmatiq/marshalkit/codec/internal/fixtures"
 	. "github.com/dogmatiq/marshalkit/codec/json"
 	. "github.com/onsi/ginkgo/v2"
@@ -19,17 +19,17 @@ var _ = Describe("type Codec", func() {
 
 	Describe("func Query()", func() {
 		It("uses the unqualified type-name as the portable type", func() {
-			rt := reflect.TypeOf(MessageA{})
+			rt := reflect.TypeFor[CommandStub[TypeA]]()
 
 			caps := codec.Query(
 				[]reflect.Type{rt},
 			)
 
-			Expect(caps.Types[rt]).To(Equal("MessageA"))
+			Expect(caps.Types[rt]).To(Equal("CommandStub[TypeA]"))
 		})
 
 		It("uses the user-defined type name", func() {
-			type LocalMessage MessageA
+			type LocalMessage CommandStub[TypeA]
 			rt := reflect.TypeOf(LocalMessage{})
 
 			caps := codec.Query(
@@ -40,14 +40,14 @@ var _ = Describe("type Codec", func() {
 		})
 
 		It("uses the element name for pointer types", func() {
-			var m **MessageA
+			var m **CommandStub[TypeA]
 			rt := reflect.TypeOf(m)
 
 			caps := codec.Query(
 				[]reflect.Type{rt},
 			)
 
-			Expect(caps.Types[rt]).To(Equal("MessageA"))
+			Expect(caps.Types[rt]).To(Equal("CommandStub[TypeA]"))
 		})
 	})
 

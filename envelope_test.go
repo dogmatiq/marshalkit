@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/dogmatiq/configkit"
-	. "github.com/dogmatiq/dogma/fixtures"
+	. "github.com/dogmatiq/enginekit/enginetest/stubs"
 	. "github.com/dogmatiq/interopspec/envelopespec"
 	. "github.com/dogmatiq/marshalkit"
 	"github.com/dogmatiq/marshalkit/fixtures"
@@ -19,15 +19,15 @@ var _ = Describe("func MustMarshalMessageIntoEnvelope()", func() {
 
 		MustMarshalMessageIntoEnvelope(
 			fixtures.Marshaler,
-			MessageA1,
+			CommandA1,
 			&env,
 		)
 
 		Expect(&env).To(EqualX(
 			&Envelope{
-				PortableName: fixtures.MessageAPortableName,
-				MediaType:    fixtures.MessageA1Packet.MediaType,
-				Data:         fixtures.MessageA1Packet.Data,
+				PortableName: "CommandStub[TypeA]",
+				MediaType:    `application/json; type="CommandStub[TypeA]"`,
+				Data:         []byte(`{"content":"A1"}`),
 			},
 		))
 	})
@@ -39,15 +39,15 @@ var _ = Describe("func MustMarshalCommandIntoEnvelope()", func() {
 
 		MustMarshalCommandIntoEnvelope(
 			fixtures.Marshaler,
-			MessageC1,
+			CommandA1,
 			&env,
 		)
 
 		Expect(&env).To(EqualX(
 			&Envelope{
-				PortableName: fixtures.MessageCPortableName,
-				MediaType:    fixtures.MessageC1Packet.MediaType,
-				Data:         fixtures.MessageC1Packet.Data,
+				PortableName: "CommandStub[TypeA]",
+				MediaType:    `application/json; type="CommandStub[TypeA]"`,
+				Data:         []byte(`{"content":"A1"}`),
 			},
 		))
 	})
@@ -59,15 +59,15 @@ var _ = Describe("func MustMarshalEventIntoEnvelope()", func() {
 
 		MustMarshalEventIntoEnvelope(
 			fixtures.Marshaler,
-			MessageE1,
+			EventA1,
 			&env,
 		)
 
 		Expect(&env).To(EqualX(
 			&Envelope{
-				PortableName: fixtures.MessageEPortableName,
-				MediaType:    fixtures.MessageE1Packet.MediaType,
-				Data:         fixtures.MessageE1Packet.Data,
+				PortableName: "EventStub[TypeA]",
+				MediaType:    `application/json; type="EventStub[TypeA]"`,
+				Data:         []byte(`{"content":"A1"}`),
 			},
 		))
 	})
@@ -79,15 +79,15 @@ var _ = Describe("func MustMarshalTimeoutIntoEnvelope()", func() {
 
 		MustMarshalTimeoutIntoEnvelope(
 			fixtures.Marshaler,
-			MessageT1,
+			TimeoutA1,
 			&env,
 		)
 
 		Expect(&env).To(EqualX(
 			&Envelope{
-				PortableName: fixtures.MessageTPortableName,
-				MediaType:    fixtures.MessageT1Packet.MediaType,
-				Data:         fixtures.MessageT1Packet.Data,
+				PortableName: "TimeoutStub[TypeA]",
+				MediaType:    `application/json; type="TimeoutStub[TypeA]"`,
+				Data:         []byte(`{"content":"A1"}`),
 			},
 		))
 	})
@@ -96,56 +96,56 @@ var _ = Describe("func MustMarshalTimeoutIntoEnvelope()", func() {
 var _ = Describe("func UnmarshalMessageFromEnvelope()", func() {
 	It("unmarshals the message from the envelope", func() {
 		env := &Envelope{
-			PortableName: fixtures.MessageAPortableName,
-			MediaType:    fixtures.MessageA1Packet.MediaType,
-			Data:         fixtures.MessageA1Packet.Data,
+			PortableName: "CommandStub[TypeA]",
+			MediaType:    `application/json; type="CommandStub[TypeA]"`,
+			Data:         []byte(`{"content":"A1"}`),
 		}
 
 		m, err := UnmarshalMessageFromEnvelope(fixtures.Marshaler, env)
 		Expect(err).ShouldNot(HaveOccurred())
-		Expect(m).To(Equal(MessageA1))
+		Expect(m).To(Equal(CommandA1))
 	})
 })
 
 var _ = Describe("func UnmarshalCommandFromEnvelope()", func() {
 	It("unmarshals the message from the envelope", func() {
 		env := &Envelope{
-			PortableName: fixtures.MessageCPortableName,
-			MediaType:    fixtures.MessageC1Packet.MediaType,
-			Data:         fixtures.MessageC1Packet.Data,
+			PortableName: "CommandStub[TypeA]",
+			MediaType:    `application/json; type="CommandStub[TypeA]"`,
+			Data:         []byte(`{"content":"A1"}`),
 		}
 
 		m, err := UnmarshalCommandFromEnvelope(fixtures.Marshaler, env)
 		Expect(err).ShouldNot(HaveOccurred())
-		Expect(m).To(Equal(MessageC1))
+		Expect(m).To(Equal(CommandA1))
 	})
 })
 
 var _ = Describe("func UnmarshalEventFromEnvelope()", func() {
 	It("unmarshals the message from the envelope", func() {
 		env := &Envelope{
-			PortableName: fixtures.MessageEPortableName,
-			MediaType:    fixtures.MessageE1Packet.MediaType,
-			Data:         fixtures.MessageE1Packet.Data,
+			PortableName: "EventStub[TypeA]",
+			MediaType:    `application/json; type="EventStub[TypeA]"`,
+			Data:         []byte(`{"content":"A1"}`),
 		}
 
 		m, err := UnmarshalEventFromEnvelope(fixtures.Marshaler, env)
 		Expect(err).ShouldNot(HaveOccurred())
-		Expect(m).To(Equal(MessageE1))
+		Expect(m).To(Equal(EventA1))
 	})
 })
 
 var _ = Describe("func UnmarshalTimeoutFromEnvelope()", func() {
 	It("unmarshals the message from the envelope", func() {
 		env := &Envelope{
-			PortableName: fixtures.MessageTPortableName,
-			MediaType:    fixtures.MessageT1Packet.MediaType,
-			Data:         fixtures.MessageT1Packet.Data,
+			PortableName: "TimeoutStub[TypeA]",
+			MediaType:    `application/json; type="TimeoutStub[TypeA]"`,
+			Data:         []byte(`{"content":"A1"}`),
 		}
 
 		m, err := UnmarshalTimeoutFromEnvelope(fixtures.Marshaler, env)
 		Expect(err).ShouldNot(HaveOccurred())
-		Expect(m).To(Equal(MessageT1))
+		Expect(m).To(Equal(TimeoutA1))
 	})
 })
 
