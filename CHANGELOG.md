@@ -10,6 +10,13 @@ The format is based on [Keep a Changelog], and this project adheres to
 [keep a changelog]: https://keepachangelog.com/en/1.0.0/
 [semantic versioning]: https://semver.org/spec/v2.0.0.html
 
+## [0.7.6] - 2024-09-26
+
+### Changed
+
+- Bumped minimum Go version to v1.23.
+- Added support for `enginekit` stubs to the test marshaler.
+
 ## [0.7.5] - 2024-08-17
 
 ### Added
@@ -165,6 +172,7 @@ different marshalers/unmarshalers provided by `google.golang.org/protobuf`.
 [0.7.1]: https://github.com/dogmatiq/marshalkit/releases/tag/v0.7.1
 [0.7.3]: https://github.com/dogmatiq/marshalkit/releases/tag/v0.7.3
 [0.7.5]: https://github.com/dogmatiq/marshalkit/releases/tag/v0.7.5
+[0.7.6]: https://github.com/dogmatiq/marshalkit/releases/tag/v0.7.6
 
 <!-- version template
 ## [0.0.1] - YYYY-MM-DD
