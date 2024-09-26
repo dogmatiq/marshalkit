@@ -30,7 +30,7 @@ var _ = Describe("type Codec", func() {
 
 		It("uses the user-defined type name", func() {
 			type LocalMessage CommandStub[TypeA]
-			rt := reflect.TypeOf(LocalMessage{})
+			rt := reflect.TypeFor[LocalMessage]()
 
 			caps := codec.Query(
 				[]reflect.Type{rt},
@@ -40,8 +40,7 @@ var _ = Describe("type Codec", func() {
 		})
 
 		It("uses the element name for pointer types", func() {
-			var m **CommandStub[TypeA]
-			rt := reflect.TypeOf(m)
+			rt := reflect.TypeFor[**CommandStub[TypeA]]()
 
 			caps := codec.Query(
 				[]reflect.Type{rt},

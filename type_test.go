@@ -14,7 +14,7 @@ var _ = Describe("func MustMarshalType()", func() {
 	It("marshals the type using the marshaler", func() {
 		n := MustMarshalType(
 			fixtures.Marshaler,
-			reflect.TypeOf(&AggregateRootStub{}),
+			reflect.TypeFor[*AggregateRootStub](),
 		)
 		Expect(n).To(Equal("AggregateRootStub"))
 	})
@@ -23,7 +23,7 @@ var _ = Describe("func MustMarshalType()", func() {
 		Expect(func() {
 			MustMarshalType(
 				fixtures.Marshaler,
-				reflect.TypeOf("<scalar value>"),
+				reflect.TypeFor[string](),
 			)
 		}).To(Panic())
 	})
@@ -36,7 +36,7 @@ var _ = Describe("func MustUnmarshalType()", func() {
 			"AggregateRootStub",
 		)
 		Expect(rt).To(Equal(
-			reflect.TypeOf(&AggregateRootStub{}),
+			reflect.TypeFor[*AggregateRootStub](),
 		))
 	})
 

@@ -1,7 +1,7 @@
 package protobuf_test
 
 import (
-	. "github.com/dogmatiq/dogma/fixtures"
+	. "github.com/dogmatiq/enginekit/enginetest/stubs"
 	. "github.com/dogmatiq/marshalkit/codec/internal/fixtures"
 	. "github.com/dogmatiq/marshalkit/codec/protobuf"
 	. "github.com/jmalloc/gomegax"
@@ -34,11 +34,9 @@ var _ = Describe("type Codec (configured for JSON format)", func() {
 		})
 
 		It("returns an error if the type is not a protocol buffers message", func() {
-			_, err := codec.Marshal(
-				MessageA{},
-			)
+			_, err := codec.Marshal(CommandA1)
 			Expect(err).To(MatchError(
-				"'fixtures.MessageA' is not a protocol buffers message",
+				"'stubs.CommandStub[github.com/dogmatiq/enginekit/enginetest/stubs.TypeA]' is not a protocol buffers message",
 			))
 		})
 	})
@@ -58,10 +56,10 @@ var _ = Describe("type Codec (configured for JSON format)", func() {
 		})
 
 		It("returns an error if the type is not a protocol buffers message", func() {
-			m := MessageA{}
-			err := codec.Unmarshal(nil, m)
+			var m CommandStub[TypeA]
+			err := codec.Unmarshal(nil, &m)
 			Expect(err).To(MatchError(
-				"'fixtures.MessageA' is not a protocol buffers message",
+				"'*stubs.CommandStub[github.com/dogmatiq/enginekit/enginetest/stubs.TypeA]' is not a protocol buffers message",
 			))
 		})
 	})

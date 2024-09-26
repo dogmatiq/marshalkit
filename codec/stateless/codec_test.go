@@ -4,8 +4,6 @@ import (
 	"reflect"
 
 	"github.com/dogmatiq/dogma"
-	// . "github.com/dogmatiq/dogma/fixtures"
-	// . "github.com/dogmatiq/marshalkit/codec/internal/fixtures"
 	. "github.com/dogmatiq/marshalkit/codec/stateless"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
