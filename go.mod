@@ -5,7 +5,7 @@ toolchain go1.24.1
 
 require (
 	github.com/dogmatiq/configkit v0.14.0
-	github.com/dogmatiq/dogma v0.14.3
+	github.com/dogmatiq/dogma v0.15.0
 	github.com/dogmatiq/enginekit v0.11.1
 	github.com/dogmatiq/interopspec v0.5.4
 	github.com/jmalloc/gomegax v0.0.0-20200507221434-64fca4c0e03a
